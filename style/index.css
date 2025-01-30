@@ -1,0 +1,170 @@
+body {
+  background-color: white;
+  color: black;
+}
+
+body nav {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  background-color: teal;
+  min-width: 99%;
+  height: 5em;
+  padding: 0.5em 1em;
+  margin: 0 -8px;
+}
+
+body nav#top-nav {
+  margin-top: -10px;
+  margin-bottom: 1em;
+  background-image: url("../BannerTwoSided.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+body nav#bottom-nav {
+  margin-bottom: -10px;
+  margin-top: 1em;
+}
+
+body nav * {
+  padding: 0.5em;
+}
+
+body nav a {
+  color: white;
+  -webkit-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  text-decoration: none;
+  border-radius: 2em;
+}
+
+body nav a.selectedNav {
+  color: gray;
+  pointer-events: none;
+}
+
+body nav a img.nav-logo {
+  max-width: 90px;
+  height: auto;
+  -webkit-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+  margin: 0em 1em;
+}
+
+body nav a img.nav-logo:hover {
+  -webkit-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+  max-width: 100px;
+  height: auto;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  -webkit-transform: rotate(-15deg);
+          transform: rotate(-15deg);
+}
+
+body nav a img.nav-logo:hover:hover {
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+body nav a.box-shadow-link:hover {
+  color: gold;
+  letter-spacing: 0.05em;
+  -webkit-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+  -webkit-box-shadow: 0 3px 12px rgba(0, 0, 0, 0.23), 0 3px 12px rgba(0, 0, 0, 0.16);
+          box-shadow: 0 3px 12px rgba(0, 0, 0, 0.23), 0 3px 12px rgba(0, 0, 0, 0.16);
+}
+
+body div.last-watched-movies-container h2 {
+  text-align: center;
+  margin-right: 25em;
+}
+
+body div.last-watched-movies-container div.movie-last-watched {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 1em;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+}
+
+body div.last-watched-movies-container div.movie-last-watched img.last-watched-poster {
+  max-height: 20%;
+  max-width: 20%;
+  margin-right: 1em;
+}
+
+body div.last-watched-movies-container div.movie-last-watched div.last-watched-info {
+  max-width: 20em;
+}
+
+body div.last-watched-movies-container div.movie-last-watched div.last-watched-info a button {
+  width: 8em;
+  height: 3em;
+}
+
+body div#home-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+body div#home-buttons a button {
+  width: 48em;
+  height: 4em;
+}
+
+body a.button-link button,
+body input.button-link button {
+  margin: 0.5em;
+  background-color: teal;
+  border: none;
+  color: white;
+  border-radius: 1em;
+  cursor: pointer;
+  -webkit-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+}
+
+body a.button-link button:hover,
+body input.button-link button:hover {
+  -webkit-transition: 0.25s ease-in-out;
+  transition: 0.25s ease-in-out;
+  background-color: gold;
+  letter-spacing: 0.05em;
+  -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);
+          box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);
+  width: 110%;
+  height: 110%;
+}
+/*# sourceMappingURL=index.css.map */

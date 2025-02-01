@@ -33,3 +33,6 @@ Select your streaming service(s) of choice, and then "like" or "dislike" certain
 ![4 - Film Rating](https://github.com/user-attachments/assets/42a161d9-45b1-4176-8a20-83c2d7e236ff)
 
 ![5 - Film Rating Info](https://github.com/user-attachments/assets/5a0007b0-f76d-4f79-b544-ef9266c98de7)
+
+## Startup - 01/28/25
+I made my mock-up of the website, including HTML, SCSS, and basic page funcitonality. I still need to update with better page responsive CSS, but overall I am pretty pleased with my progress so far.

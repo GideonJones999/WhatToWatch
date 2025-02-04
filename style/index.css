@@ -3,6 +3,16 @@ body {
   color: black;
 }
 
+body header {
+  margin-top: -10px;
+  margin-bottom: 1em;
+}
+
+body footer {
+  margin-bottom: -10px;
+  margin-top: 1em;
+}
+
 body nav {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -21,16 +31,10 @@ body nav {
 }
 
 body nav#top-nav {
-  margin-top: -10px;
-  margin-bottom: 1em;
-  background-image: url("../BannerTwoSided.png");
+  background-image: url("./imgs/BannerTwoSided.png");
   background-size: contain;
   background-repeat: no-repeat;
-}
-
-body nav#bottom-nav {
-  margin-bottom: -10px;
-  margin-top: 1em;
+  background-position-y: center;
 }
 
 body nav * {

@@ -38,6 +38,13 @@ div.movie-last-watched img.last-watched-poster {
 
 div.movie-last-watched div.last-watched-info {
   max-width: 20em;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  justify-items: center;
 }
 
 div.movie-last-watched div.last-watched-info input[type="submit"] {
@@ -72,6 +79,15 @@ div.movie-last-watched div.last-watched-info iframe.movie-trailer {
   -ms-flex-item-align: center;
       -ms-grid-row-align: center;
       align-self: center;
+}
+
+@media (max-width: 850px) {
+  div.movie-last-watched div.last-watched-info iframe.movie-trailer {
+    width: 448px;
+    height: 252px;
+    -ms-grid-column-align: center;
+        justify-self: center;
+  }
 }
 
 div.movie-last-watched div.last-watched-info div.rec-rating {

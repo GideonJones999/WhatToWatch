@@ -3,6 +3,14 @@
 body {
   background-color: $backgroundColor;
   color: $backgroundTextColor;
+  header {
+    margin-top: -10px;
+    margin-bottom: 1em;
+  }
+  footer {
+    margin-bottom: -10px;
+    margin-top: 1em;
+  }
   nav {
     display: flex;
     justify-content: center;
@@ -13,15 +21,10 @@ body {
     padding: 0.5em 1em;
     margin: 0 -8px;
     &#top-nav {
-      margin-top: -10px;
-      margin-bottom: 1em;
-      background-image: url("../BannerTwoSided.png");
+      background-image: url("./imgs/BannerTwoSided.png");
       background-size: contain;
       background-repeat: no-repeat;
-    }
-    &#bottom-nav {
-      margin-bottom: -10px;
-      margin-top: 1em;
+      background-position-y: center;
     }
     * {
       padding: 0.5em;

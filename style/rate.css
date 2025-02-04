@@ -68,6 +68,12 @@ div.movie-last-watched div.last-watched-info input[type="submit"]:hover {
   letter-spacing: 0.05em;
 }
 
+div.movie-last-watched div.last-watched-info iframe.movie-trailer {
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
 div.movie-last-watched div.last-watched-info div.rec-rating {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -83,10 +89,6 @@ div.movie-last-watched div.last-watched-info div.rec-rating {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-}
-
-div.movie-last-watched div.last-watched-info div.rec-rating h3 {
-  margin-top: -0.5em;
 }
 
 div.movie-last-watched div.last-watched-info div.rec-rating a button {

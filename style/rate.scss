@@ -38,16 +38,15 @@ div.movie-last-watched {
         letter-spacing: 0.05em;
       }
     }
+    iframe.movie-trailer {
+      align-self: center;
+    }
     div.rec-rating {
       display: flex;
       flex-direction: column;
       justify-content: center;
       justify-items: center;
       align-items: center;
-      
-      h3 {
-        margin-top: -0.5em;
-      }
       a {
         button {
           width: 15em;

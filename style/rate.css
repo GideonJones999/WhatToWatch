@@ -87,6 +87,7 @@ div.movie-last-watched div.last-watched-info iframe.movie-trailer {
     height: 252px;
     -ms-grid-column-align: center;
         justify-self: center;
+    max-width: 90vw;
   }
 }
 

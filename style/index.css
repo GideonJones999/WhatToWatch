@@ -95,7 +95,7 @@ body nav a.box-shadow-link:hover {
 }
 
 body main {
-  min-height: 80vh;
+  min-height: 75.25vh;
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;

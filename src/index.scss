@@ -1,0 +1,10 @@
+@import "./utility.scss";
+
+body {
+  background-color: $backgroundColor;
+  color: $backgroundTextColor;
+  main {
+    min-height: 75.25vh;
+    flex-grow: 1;
+  }
+}

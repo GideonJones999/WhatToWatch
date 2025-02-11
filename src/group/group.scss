@@ -1,0 +1,36 @@
+@import "./utility.scss";
+body {
+  div.group-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    ul {
+      li {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        h4 {
+          margin-right: 2em;
+        }
+        a {
+          color: red;
+          text-decoration: none;
+        }
+      }
+    }
+    a#share-group {
+      button {
+        width: 32em;
+        height: 3em;
+      }
+    }
+    a#group-get-rec {
+      button {
+        width: 50em;
+        height: 5em;
+      }
+    }
+  }
+}

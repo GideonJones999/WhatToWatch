@@ -1,0 +1,60 @@
+@import "../utility.scss";
+
+header {
+  margin-top: -10px;
+  margin-bottom: 1em;
+  left: 0;
+  top: 0;
+  // position: fixed;
+  width: 100%;
+}
+nav#top-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $primaryColor;
+  // min-width: 99%;
+  height: 5em;
+  padding: 0.5em 1em;
+  margin: 0 -8px;
+  background-image: url("/BannerTwoSided.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position-y: center;
+  * {
+    padding: 0.5em;
+  }
+  a {
+    color: $buttonTextColor;
+    transition: 0.25s ease-in-out;
+    box-shadow: none;
+    text-decoration: none;
+    border-radius: 2em;
+    &.selectedNav {
+      color: $buttonTextColorDisabled;
+      pointer-events: none;
+    }
+    img.nav-logo {
+      max-width: 90px;
+      height: auto;
+      transition: 0.25s ease-in-out;
+      margin: 0em 1em;
+      &:hover {
+        transition: 0.25s ease-in-out;
+        max-width: 100px;
+        height: auto;
+        box-shadow: none;
+        transform: rotate(-15deg);
+        &:hover {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+  a.box-shadow-link:hover {
+    color: $buttonTextColorActive;
+    letter-spacing: 0.05em;
+    transition: 0.25s ease-in-out;
+    box-shadow: bottom-shadow(2), top-shadow(2);
+  }
+}

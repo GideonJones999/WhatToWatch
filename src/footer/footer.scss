@@ -1,0 +1,61 @@
+@import "../utility.scss";
+
+footer {
+  margin-bottom: -10px;
+  margin-top: 1em;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  a.box-shadow-link:hover {
+    color: $buttonTextColorActive;
+    letter-spacing: 0.05em;
+    transition: 0.25s ease-in-out;
+    box-shadow: bottom-shadow(2), top-shadow(2);
+  }
+}
+nav#bottom-nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $primaryColor;
+  // min-width: 99%;
+  height: 5em;
+  padding: 0.5em 1em;
+  margin: 0 -8px;
+  * {
+    padding: 0.5em;
+  }
+  a {
+    color: $buttonTextColor;
+    transition: 0.25s ease-in-out;
+    box-shadow: none;
+    text-decoration: none;
+    border-radius: 2em;
+    &.selectedNav {
+      color: $buttonTextColorDisabled;
+      pointer-events: none;
+    }
+    img.nav-logo {
+      max-width: 90px;
+      height: auto;
+      transition: 0.25s ease-in-out;
+      margin: 0em 1em;
+      &:hover {
+        transition: 0.25s ease-in-out;
+        max-width: 100px;
+        height: auto;
+        box-shadow: none;
+        transform: rotate(-15deg);
+        &:hover {
+          box-shadow: none;
+        }
+      }
+    }
+  }
+  a.box-shadow-link:hover {
+    color: $buttonTextColorActive;
+    letter-spacing: 0.05em;
+    transition: 0.25s ease-in-out;
+    box-shadow: bottom-shadow(2), top-shadow(2);
+  }
+}

@@ -1,0 +1,8 @@
+body {
+  background-color: white;
+  color: black;
+}
+body main {
+  min-height: 75.25vh;
+  flex-grow: 1;
+}/*# sourceMappingURL=index.css.map */

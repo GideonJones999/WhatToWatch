@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "./login.css";
 
 export default function Login({ onLogin }) {
   const [username, setUsername] = useState("");
@@ -18,37 +19,36 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-gray-100">
-      <form className="w-80 p-6 bg-white shadow-lg rounded-lg" onSubmit={handleLogin}>
-        <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Username</label>
-          <input
-            type="text"
-            className="w-full p-2 border rounded"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Password</label>
-          <input
-            type="password"
-            className="w-full p-2 border rounded"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-        >
-          Login
-        </button>
-      </form>
-    </div>
+    <main>
+      <div className="login-container">
+        <form className="login-form" onSubmit={handleLogin}>
+          <h2 className="login-header">Login</h2>
+          {error && <p className="error-text">{error}</p>}
+          <div className="login-enter">
+            <label className="user-lable">Username</label>
+            <input
+              type="text"
+              className="user-input"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div className="login-enter">
+            <label className="pass-label">Password</label>
+            <input
+              type="password"
+              className="pass-input"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <button type="submit" className="button-link">
+            Login
+          </button>
+        </form>
+      </div>
+    </main>
   );
 }

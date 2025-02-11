@@ -49,26 +49,4 @@ main div#home-buttons {
 main div#home-buttons a button {
   width: 48em;
   height: 4em;
-}
-main a.button-link button,
-main input.button-link button,
-main navLink.button-link button {
-  margin: 0.5em;
-  background-color: teal;
-  border: none;
-  color: white;
-  border-radius: 1em;
-  cursor: pointer;
-  transition: 0.25s ease-in-out;
-  box-shadow: none;
-}
-main a.button-link button:hover,
-main input.button-link button:hover,
-main navLink.button-link button:hover {
-  transition: 0.25s ease-in-out;
-  background-color: gold;
-  letter-spacing: 0.05em;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);
-  width: 110%;
-  height: 110%;
 }/*# sourceMappingURL=home.css.map */

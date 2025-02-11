@@ -20,7 +20,7 @@ export default function Footer() {
         </NavLink>
         <a
           className="box-shadow-link"
-          href="https://github.com/GideonJones999/WhatToWatch"
+          href="https://github.com/GideonJones999/WhatToWatch/tree/react-branch"
           target="_blank"
         >
           <i className="fa-brands fa-github"></i>

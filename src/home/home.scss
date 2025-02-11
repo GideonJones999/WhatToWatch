@@ -52,27 +52,4 @@ main {
       }
     }
   }
-
-  a.button-link,
-  input.button-link,
-  navLink.button-link {
-    button {
-      margin: 0.5em;
-      background-color: $buttonColor;
-      border: none;
-      color: $buttonTextColor;
-      border-radius: 1em;
-      cursor: pointer;
-      transition: 0.25s ease-in-out;
-      box-shadow: none;
-      &:hover {
-        transition: 0.25s ease-in-out;
-        background-color: $buttonTextColorActive;
-        letter-spacing: 0.05em;
-        box-shadow: bottom-shadow(3), top-shadow(3);
-        width: 110%;
-        height: 110%;
-      }
-    }
-  }
 }

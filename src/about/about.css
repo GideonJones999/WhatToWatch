@@ -3,103 +3,72 @@ body div.contact-container {
   min-width: 100%;
   justify-items: center;
 }
-
 body div.about-container p,
 body div.contact-container p {
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
   max-width: 50%;
 }
 
 div#contact-form-container {
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  justify-content: center;
 }
-
 div#contact-form-container form#contact-form {
   width: 50vw;
-  display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -ms-flex-line-pack: center;
-      align-content: center;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
 }
-
 div#contact-form-container form#contact-form h3 {
-  -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
-      align-self: center;
+  align-self: center;
 }
-
 div#contact-form-container form#contact-form span {
   width: 75%;
-  -ms-flex-item-align: center;
-      align-self: center;
-  display: -webkit-box;
-  display: -ms-flexbox;
+  align-self: center;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  flex-direction: column;
 }
-
-div#contact-form-container form#contact-form span input {
+div#contact-form-container form#contact-form span input,
+div#contact-form-container form#contact-form span textarea,
+div#contact-form-container form#contact-form span button {
   border-radius: 0.5em;
   border: 2px black solid;
 }
-
-div#contact-form-container form#contact-form span input[type="submit"] {
-  display: -webkit-inline-box;
-  display: -ms-inline-flexbox;
+div#contact-form-container form#contact-form span input[type=submit],
+div#contact-form-container form#contact-form span textarea[type=submit],
+div#contact-form-container form#contact-form span button[type=submit] {
   display: inline-flex;
   border: none;
   padding: 1em 1.5em;
   width: 100%;
   font-size: medium;
   margin: 1em 0.25em;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -ms-flex-item-align: center;
-      align-self: center;
+  align-items: center;
+  align-self: center;
   background-color: teal;
   color: white;
-  -webkit-transition: ease-in-out 0.25s;
   transition: ease-in-out 0.25s;
 }
-
-div#contact-form-container form#contact-form span input[type="submit"]:hover {
+div#contact-form-container form#contact-form span input[type=submit]:hover,
+div#contact-form-container form#contact-form span textarea[type=submit]:hover,
+div#contact-form-container form#contact-form span button[type=submit]:hover {
   background-color: gold;
-  -webkit-transition: ease-in-out 0.25s;
   transition: ease-in-out 0.25s;
   letter-spacing: 0.05em;
 }
-
-div#contact-form-container form#contact-form span textarea#contact-form-body {
+div#contact-form-container form#contact-form span input#contact-form-body,
+div#contact-form-container form#contact-form span textarea#contact-form-body,
+div#contact-form-container form#contact-form span button#contact-form-body {
   height: 5em;
   width: 98%;
   text-overflow: wrap;
-  -ms-flex-item-align: center;
-      -ms-grid-row-align: center;
-      align-self: center;
+  align-self: center;
   border-radius: 0.5em;
   border: 2px black solid;
 }
-
-div#contact-form-container form#contact-form span label {
+div#contact-form-container form#contact-form span input label,
+div#contact-form-container form#contact-form span textarea label,
+div#contact-form-container form#contact-form span button label {
   padding-left: 1em;
-}
-/*# sourceMappingURL=about.css.map */
+}/*# sourceMappingURL=about.css.map */

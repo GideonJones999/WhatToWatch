@@ -60,8 +60,8 @@ export default function About() {
         </p>
         <p>
           I made this webiste for my CS 260 class at BYU during my Winter 2025
-          Semester. It uses HTML, CSS, React (eventually), WebSocket
-          (eventually), JavaScript, AWS, and more!
+          Semester. It uses HTML, SCSS, React, WebSocket (eventually),
+          JavaScript, AWS, and more!
         </p>
       </div>
 
@@ -114,6 +114,7 @@ export default function About() {
                 value={formData.body}
                 onChange={handleChange}
                 required
+                id="contact-form-body"
               />
             </span>
             <span>

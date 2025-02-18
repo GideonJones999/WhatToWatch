@@ -1,4 +1,4 @@
-@import "./utility.scss";
+@import "../utility.scss";
 
 body {
   div.about-container,
@@ -29,7 +29,9 @@ div#contact-form-container {
       align-self: center;
       display: flex;
       flex-direction: column;
-      input {
+      input,
+      textarea,
+      button {
         border-radius: 0.5em;
         // height: 1.5em;
         border: 2px black solid;
@@ -51,17 +53,17 @@ div#contact-form-container {
             letter-spacing: 0.05em;
           }
         }
-      }
-      textarea#contact-form-body {
-        height: 5em;
-        width: 98%;
-        text-overflow: wrap;
-        align-self: center;
-        border-radius: 0.5em;
-        border: 2px black solid;
-      }
-      label {
-        padding-left: 1em;
+        &#contact-form-body {
+          height: 5em;
+          width: 98%;
+          text-overflow: wrap;
+          align-self: center;
+          border-radius: 0.5em;
+          border: 2px black solid;
+        }
+        label {
+          padding-left: 1em;
+        }
       }
     }
   }

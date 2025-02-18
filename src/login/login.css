@@ -20,13 +20,14 @@ main div.login-container button.button-link {
   cursor: pointer;
   transition: 0.25s ease-in-out;
   box-shadow: none;
-  width: 100%;
+  width: 5em;
+  height: 1.5em;
 }
 main div.login-container button.button-link:hover {
   transition: 0.25s ease-in-out;
   background-color: gold;
   letter-spacing: 0.05em;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);
-  width: 110%;
-  height: 110%;
+  width: 6em;
+  height: 2em;
 }/*# sourceMappingURL=login.css.map */

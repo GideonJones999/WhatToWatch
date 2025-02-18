@@ -22,14 +22,15 @@ main {
       cursor: pointer;
       transition: 0.25s ease-in-out;
       box-shadow: none;
-      width: 100%;
+      width: 5em;
+      height: 1.5em;
       &:hover {
         transition: 0.25s ease-in-out;
         background-color: $buttonTextColorActive;
         letter-spacing: 0.05em;
         box-shadow: bottom-shadow(3), top-shadow(3);
-        width: 110%;
-        height: 110%;
+        width: 6em;
+        height: 2em;
       }
     }
   }

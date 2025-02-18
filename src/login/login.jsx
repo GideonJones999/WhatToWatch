@@ -18,6 +18,12 @@ export default function Login({ onLogin }) {
     }
   };
 
+  const handleSSO = () => {
+    // window.alert(5 + 6);
+    onLogin();
+    navigate("/");
+  };
+
   return (
     <main>
       <div className="login-container">
@@ -48,6 +54,9 @@ export default function Login({ onLogin }) {
             Login
           </button>
         </form>
+        <button onClick={handleSSO} className="button-link">
+          <i className="fa-brands fa-google"></i>
+        </button>
       </div>
     </main>
   );

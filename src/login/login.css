@@ -1,3 +1,6 @@
+main {
+  height: 76vh;
+}
 main div.login-container {
   display: flex;
   flex-direction: column;

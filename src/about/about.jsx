@@ -117,7 +117,9 @@ export default function About() {
               />
             </span>
             <span>
-              <button type="submit">Send Message</button>
+              <button className="button-link" type="submit">
+                Send Message
+              </button>
             </span>
           </form>
           {statusMessage && <p>{statusMessage}</p>}

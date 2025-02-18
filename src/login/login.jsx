@@ -57,6 +57,10 @@ export default function Login({ onLogin }) {
         <button onClick={handleSSO} className="button-link">
           <i className="fa-brands fa-google"></i>
         </button>
+        <p>
+          This is a temp button, it doesn't actually log into your google
+          account.
+        </p>
       </div>
     </main>
   );

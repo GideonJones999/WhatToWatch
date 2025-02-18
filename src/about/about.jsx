@@ -53,10 +53,10 @@ export default function About() {
           My name is Gideon, and I love movies! However, there are so many
           options nowadays that make it hard to decide on what to watch. That's
           why I made
-          <a href="https://moviepick.click/">moviepick.click</a>! It is designed
-          to help you and your friends decide what movie to watch, taking into
-          consideration the streaming services available and your preferences!
-          :)
+          <a href="https://moviepick.click/"> moviepick.click</a>! It is
+          designed to help you and your friends decide what movie to watch,
+          taking into consideration the streaming services available and your
+          preferences! :)
         </p>
         <p>
           I made this webiste for my CS 260 class at BYU during my Winter 2025

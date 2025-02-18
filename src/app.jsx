@@ -49,7 +49,13 @@ export default function App() {
         />
         <Route
           path="/profile"
-          element={isLoggedIn ? <Profile /> : <Navigate to="/login" />}
+          element={
+            isLoggedIn ? (
+              <Profile onLogout={() => setIsLoggedIn(false)} />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

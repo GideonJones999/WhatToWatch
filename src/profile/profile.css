@@ -25,6 +25,14 @@ div.profile-container div.profile-info {
   max-width: 20em;
 }
 div.profile-container div.profile-info a button {
-  width: 8em;
-  height: 3em;
+  width: 15em;
+  height: 2.5em;
+}
+@media (max-width: 850px) {
+  div.profile-container div.profile-info a button {
+    width: 55vw;
+  }
+}
+div.profile-container div.profile-info a#logout-button button {
+  background-color: red;
 }/*# sourceMappingURL=profile.css.map */

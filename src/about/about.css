@@ -49,6 +49,7 @@ div#contact-form-container form#contact-form span button[type=submit] {
   background-color: teal;
   color: white;
   transition: ease-in-out 0.25s;
+  cursor: pointer;
 }
 div#contact-form-container form#contact-form span input[type=submit]:hover,
 div#contact-form-container form#contact-form span textarea[type=submit]:hover,

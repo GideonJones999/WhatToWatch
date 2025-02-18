@@ -47,6 +47,7 @@ div#contact-form-container {
           background-color: $buttonColor;
           color: $buttonTextColor;
           transition: ease-in-out 0.25s;
+          cursor: pointer;
           &:hover {
             background-color: $buttonTextColorActive;
             transition: ease-in-out 0.25s;

@@ -6,7 +6,10 @@ export default function Rate() {
     <main>
       <h1>Rate</h1>
       <div class="movie-last-watched">
-        <img class="last-watched-poster" src="/endgamePoster.jpg" />
+        <img
+          class="last-watched-poster"
+          src="https://image.tmdb.org/t/p/original/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg"
+        />
         <div class="last-watched-info">
           <h3 class="last-watched-name">Avengers: Endgame</h3>
           <h5 class="last-watched-tag">Avenge the fallen.</h5>

@@ -6,7 +6,10 @@ export default function Recommend() {
     <main>
       <h1>Recommendation</h1>
       <div className="movie-last-watched">
-        <img className="last-watched-poster" src="/endgamePoster.jpg" />
+        <img
+          className="last-watched-poster"
+          src="https://image.tmdb.org/t/p/original/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg"
+        />
         <div className="last-watched-info">
           <h3 className="last-watched-name">Avengers: Endgame</h3>
           <h5 className="last-watched-tag">Avenge the fallen.</h5>

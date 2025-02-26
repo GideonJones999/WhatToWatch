@@ -1,64 +1,63 @@
 import React from "react";
 import LastWatchedMovie from "./last-watched-movie";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import MovieInfo from "./movie-info";
 
-const MovieRateInfo = ({ title, tagline, description, poster, actors }) => {
+const MovieRateInfo = ({}) => {
+  const location = useLocation();
+  const { title, tagline, description, poster, actors, rating } =
+    location.state || {};
+
+  if (!title) {
+    return (
+      <main>
+        <p>No movie data available. Please navigate from the home page.</p>
+      </main>
+    );
+  }
+
+  const ratingNamb = parseInt(rating);
+
+  console.log(location.state);
+
   return (
-    <div className="movieRateInfo">
-      <LastWatchedMovie
-        title={title}
-        tagline={tagline}
-        description={description}
-        poster={poster}
-        actors={actors}
-      />
-      <div class="ratings">
-        <h3>Your Rating:</h3>
-        <div class="rate">
-          <input type="radio" id="star10" name="rate" value="10" />
-          <label for="star10" title="10 stars">
-            10 stars
-          </label>
-          <input type="radio" id="star9" name="rate" value="9" />
-          <label for="star9" title="9 stars">
-            9 stars
-          </label>
-          <input type="radio" id="star8" name="rate" value="8" />
-          <label for="star8" title="8 stars">
-            8 stars
-          </label>
-          <input type="radio" id="star7" name="rate" value="7" />
-          <label for="star7" title="7 stars">
-            7 stars
-          </label>
-          <input type="radio" id="star6" name="rate" value="6" />
-          <label for="star6" title="6 stars">
-            6 stars
-          </label>
-          <input type="radio" id="star5" name="rate" value="5" />
-          <label for="star5" title="5 stars">
-            5 stars
-          </label>
-          <input type="radio" id="star4" name="rate" value="4" />
-          <label for="star4" title="4 stars">
-            4 stars
-          </label>
-          <input type="radio" id="star3" name="rate" value="3" />
-          <label for="star3" title="3 stars">
-            3 stars
-          </label>
-          <input type="radio" id="star2" name="rate" value="2" />
-          <label for="star2" title="2 stars">
-            2 stars
-          </label>
-          <input type="radio" id="star1" name="rate" value="1" />
-          <label for="star1" title="1 star">
-            1 star
-          </label>
+    <main>
+      <div className="movieRateInfo">
+        <MovieInfo
+          title={title}
+          tagline={tagline}
+          description={description}
+          poster={poster}
+          actors={actors}
+        />
+        <div className="ratings">
+          <h3>Your Rating:</h3>
+          <div className="rate">
+            {[...Array(10)].map((_, i) => {
+              const starValue = 10 - i; // Stars go from 10 to 1
+              return (
+                <React.Fragment key={starValue}>
+                  <input
+                    type="radio"
+                    id={`star${starValue}`}
+                    name="rate"
+                    value={starValue}
+                    defaultChecked={ratingNamb === starValue} // Set default checked state
+                  />
+                  <label
+                    htmlFor={`star${starValue}`}
+                    title={`${starValue} stars`}
+                  >
+                    {starValue} stars
+                  </label>
+                </React.Fragment>
+              );
+            })}
+          </div>
         </div>
+        <input type="submit" className="button-link" />
       </div>
-      <input type="submit" class="button-link" />
-    </div>
+    </main>
   );
 };
 

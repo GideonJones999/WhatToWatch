@@ -20,7 +20,7 @@ export default function Home() {
               first and last voyage—on April 15, 1912."
           poster="https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
           actors={["Leonardo DiCaprio", "Kate Winslet"]}
-          rating="******"
+          rating="6"
         />
 
         <LastWatchedMovie
@@ -34,7 +34,7 @@ export default function Home() {
               universe once and for all, no matter what consequences may be in
               store."
           actors={["Robert Downey Jr.", "Chris Evans"]}
-          rating="**********"
+          rating="10"
         />
       </div>
 

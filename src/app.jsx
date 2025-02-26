@@ -17,6 +17,8 @@ import Group from "./group/group";
 import Header from "./header/header";
 import Footer from "./footer/footer";
 import "./index.css";
+import MovieRateInfo from "./components/movie-rate-info";
+import MovieRecInfo from "./components/movie-rec-info";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State for login status
@@ -40,12 +42,12 @@ export default function App() {
         />
         <Route
           path="/rate"
-          element={isLoggedIn ? <Rate /> : <Navigate to="/login" />}
+          element={isLoggedIn ? <MovieRateInfo /> : <Navigate to="/login" />}
         />
         <Route path="/about" element={<About />} />
         <Route
           path="/recommend"
-          element={isLoggedIn ? <Recommend /> : <Navigate to="/login" />}
+          element={isLoggedIn ? <MovieRecInfo /> : <Navigate to="/login" />}
         />
         <Route
           path="/profile"

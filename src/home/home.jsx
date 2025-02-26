@@ -2,8 +2,10 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import LastWatchedMovie from "../components/last-watched-movie";
 import "./home.css";
+import { getUserData } from "../util";
 
 export default function Home() {
+  const user = getUserData();
   return (
     <main>
       <div className="last-watched-movies-container">
@@ -20,7 +22,7 @@ export default function Home() {
               first and last voyage—on April 15, 1912."
           poster="https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
           actors={["Leonardo DiCaprio", "Kate Winslet"]}
-          rating="6"
+          rating={user.userRatings["Titanic"]}
         />
 
         <LastWatchedMovie
@@ -34,7 +36,7 @@ export default function Home() {
               universe once and for all, no matter what consequences may be in
               store."
           actors={["Robert Downey Jr.", "Chris Evans"]}
-          rating="10"
+          rating={user.userRatings["Avengers: Endgame"]}
         />
       </div>
 

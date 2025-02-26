@@ -41,88 +41,68 @@ div.movie-last-watched {
         letter-spacing: 0.05em;
       }
     }
-    iframe.movie-trailer {
-      align-self: center;
+  }
+}
+iframe.movie-trailer {
+  align-self: center;
+  @media (max-width: 850px) {
+    width: 448px;
+    height: 252px;
+    justify-self: center;
+    max-width: 90vw;
+  }
+}
+div.rec-rating {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+  a {
+    button {
+      width: 15em;
+      height: 2.5em;
       @media (max-width: 850px) {
-        width: 448px;
-        height: 252px;
-        justify-self: center;
-        max-width: 90vw;
+        width: 55vw;
       }
     }
-    div.rec-rating {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      justify-items: center;
-      align-items: center;
-      a {
-        button {
-          width: 15em;
-          height: 2.5em;
-          @media (max-width: 850px) {
-            width: 55vw;
-          }
-        }
-        &#rating-no {
-          button {
-            background-color: red;
-          }
-        }
-        &#rating-mid {
-          button {
-            background-color: black;
-          }
-        }
+    &#rating-no {
+      button {
+        background-color: red;
       }
     }
-    h4.where-to-watch {
-      a {
-        color: $primaryColor;
-        text-decoration: none;
-        transition: ease-in-out 0.25s;
-        &:hover {
-          color: $buttonTextColorActive;
-          letter-spacing: 0.05em;
-          transition: ease-in-out 0.25s;
-        }
+    &#rating-mid {
+      button {
+        background-color: black;
+      }
+    }
+    &:hover {
+      button {
+        transition: 0.25s ease-in-out;
+        letter-spacing: 0.05em;
+        box-shadow: bottom-shadow(3), top-shadow(3);
+        transform: scale(1.1);
       }
     }
   }
 }
+h4.where-to-watch {
+  a {
+    color: $primaryColor;
+    text-decoration: none;
+    transition: ease-in-out 0.25s;
+    &:hover {
+      color: $buttonTextColorActive;
+      letter-spacing: 0.05em;
+      transition: ease-in-out 0.25s;
+    }
+  }
+}
 
-.rate {
-  float: left;
-  height: 46px;
-  padding: 0 10px;
-  &:not(:checked) > input {
-    position: absolute;
-    top: -9999px;
-  }
-  &:not(:checked) > label {
-    float: right;
-    width: 1em;
-    overflow: hidden;
-    white-space: nowrap;
-    cursor: pointer;
-    font-size: 30px;
-    color: #ccc;
-    &:before {
-      content: "★ ";
-    }
-    &:hover,
-    &:hover ~ label {
-      color: gold;
-    }
-  }
-  & > input:checked ~ label {
-    color: gold;
-  }
-  & > input:checked + label:hover,
-  & > input:checked + label:hover ~ label,
-  & > input:checked ~ label:hover,
-  & > input:checked ~ label:hover ~ label,
-  & > label:hover ~ input:checked ~ label {
-    color: gold;
-  }
+.movie-rec-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }

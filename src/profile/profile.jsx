@@ -1,17 +1,13 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./profile.css";
+import { getUserData, setUserData } from "../util";
 
 export default function Profile({ onLogout }) {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
-  const [profile, setProfile] = useState({
-    name: "Profile Name",
-    rating: "PG-13",
-    services: ["Disney+", "Max", "Netflix"],
-    genres: ["Action", "Romance", "Comedy"],
-  });
+  const profile = getUserData();
 
   const [tempProfile, setTempProfile] = useState({ ...profile });
 
@@ -26,7 +22,13 @@ export default function Profile({ onLogout }) {
   };
 
   const saveProfile = () => {
-    setProfile(tempProfile);
+    setUserData(
+      tempProfile.userName,
+      tempProfile.userRating,
+      tempProfile.userServices,
+      tempProfile.userGenres,
+      tempProfile.userPicture
+    );
     setIsEditing(false);
   };
 
@@ -40,13 +42,13 @@ export default function Profile({ onLogout }) {
           src="/temporary-profile-placeholder-1.jpg"
         />
         <div className="profile-info">
-          <h3 className="profile-name">{profile.name}</h3>
+          <h3 className="profile-name">{profile.userName}</h3>
           <h4 className="profile-preferred-rating">
-            Preferred Rating: {profile.rating}
+            Preferred Rating: {profile.userRating}
           </h4>
           <h4 className="profile-services-header">Streaming Services:</h4>
           <ul className="profile-services">
-            {profile.services.map((service, index) => (
+            {profile.userServices.map((service, index) => (
               <li key={index} className="profile-service">
                 {service}
               </li>
@@ -54,7 +56,7 @@ export default function Profile({ onLogout }) {
           </ul>
           <h4 className="profile-preferred-genres">Preferred Genres:</h4>
           <ul className="profile-genres">
-            {profile.services.map((genre, index) => (
+            {profile.userGenres.map((genre, index) => (
               <li key={index} className="profile-genre">
                 {genre}
               </li>
@@ -78,16 +80,16 @@ export default function Profile({ onLogout }) {
             <label>Name: </label>
             <input
               type="text"
-              value={tempProfile.name}
+              value={tempProfile.userName}
               onChange={(e) =>
-                setTempProfile({ ...tempProfile, name: e.target.value })
+                setTempProfile({ ...tempProfile, userName: e.target.value })
               }
             />
             <label>Preferred Rating: </label>
             <select
-              value={tempProfile.rating}
+              value={tempProfile.userRating}
               onChange={(e) =>
-                setTempProfile({ ...tempProfile, rating: e.target.value })
+                setTempProfile({ ...tempProfile, userRating: e.target.value })
               }
             >
               <option value="G">G</option>
@@ -99,11 +101,11 @@ export default function Profile({ onLogout }) {
             <label>Streaming Services:</label>
             <input
               type="text"
-              value={tempProfile.services.join(", ")}
+              value={tempProfile.userServices.join(", ")}
               onChange={(e) =>
                 setTempProfile({
                   ...tempProfile,
-                  services: e.target.value.split(", "),
+                  userServices: e.target.value.split(", "),
                 })
               }
             />
@@ -111,11 +113,11 @@ export default function Profile({ onLogout }) {
             <label>Preferred Genres:</label>
             <input
               type="text"
-              value={tempProfile.genres.join(", ")}
+              value={tempProfile.userGenres.join(", ")}
               onChange={(e) =>
                 setTempProfile({
                   ...tempProfile,
-                  genres: e.target.value.split(", "),
+                  userGenres: e.target.value.split(", "),
                 })
               }
             />

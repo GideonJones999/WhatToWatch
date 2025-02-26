@@ -1,4 +1,3 @@
-@charset "UTF-8";
 div.movie-last-watched {
   display: flex;
   padding: 1em;
@@ -47,77 +46,63 @@ div.movie-last-watched div.last-watched-info input[type=submit]:hover {
   transition: ease-in-out 0.25s;
   letter-spacing: 0.05em;
 }
-div.movie-last-watched div.last-watched-info iframe.movie-trailer {
+
+iframe.movie-trailer {
   align-self: center;
 }
 @media (max-width: 850px) {
-  div.movie-last-watched div.last-watched-info iframe.movie-trailer {
+  iframe.movie-trailer {
     width: 448px;
     height: 252px;
     justify-self: center;
     max-width: 90vw;
   }
 }
-div.movie-last-watched div.last-watched-info div.rec-rating {
+
+div.rec-rating {
   display: flex;
   flex-direction: column;
   justify-content: center;
   justify-items: center;
   align-items: center;
 }
-div.movie-last-watched div.last-watched-info div.rec-rating a button {
+div.rec-rating a button {
   width: 15em;
   height: 2.5em;
 }
 @media (max-width: 850px) {
-  div.movie-last-watched div.last-watched-info div.rec-rating a button {
+  div.rec-rating a button {
     width: 55vw;
   }
 }
-div.movie-last-watched div.last-watched-info div.rec-rating a#rating-no button {
+div.rec-rating a#rating-no button {
   background-color: red;
 }
-div.movie-last-watched div.last-watched-info div.rec-rating a#rating-mid button {
+div.rec-rating a#rating-mid button {
   background-color: black;
 }
-div.movie-last-watched div.last-watched-info h4.where-to-watch a {
+div.rec-rating a:hover button {
+  transition: 0.25s ease-in-out;
+  letter-spacing: 0.05em;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);
+  transform: scale(1.1);
+}
+
+h4.where-to-watch a {
   color: teal;
   text-decoration: none;
   transition: ease-in-out 0.25s;
 }
-div.movie-last-watched div.last-watched-info h4.where-to-watch a:hover {
+h4.where-to-watch a:hover {
   color: gold;
   letter-spacing: 0.05em;
   transition: ease-in-out 0.25s;
 }
 
-.rate {
-  float: left;
-  height: 46px;
-  padding: 0 10px;
-}
-.rate:not(:checked) > input {
-  position: absolute;
-  top: -9999px;
-}
-.rate:not(:checked) > label {
-  float: right;
-  width: 1em;
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 30px;
-  color: #ccc;
-}
-.rate:not(:checked) > label:before {
-  content: "★ ";
-}
-.rate:not(:checked) > label:hover, .rate:not(:checked) > label:hover ~ label {
-  color: gold;
-}
-.rate > input:checked ~ label {
-  color: gold;
-}
-.rate > input:checked + label:hover, .rate > input:checked + label:hover ~ label, .rate > input:checked ~ label:hover, .rate > input:checked ~ label:hover ~ label, .rate > label:hover ~ input:checked ~ label {
-  color: gold;
+.movie-rec-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
 }/*# sourceMappingURL=movie-rec.css.map */

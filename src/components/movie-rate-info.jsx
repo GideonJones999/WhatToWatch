@@ -1,12 +1,14 @@
 import React from "react";
-import LastWatchedMovie from "./last-watched-movie";
-import { NavLink, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import MovieInfo from "./movie-info";
+import { getRandMovie, getUserData, setUserRatings } from "../util";
+import "../rate/rate.css";
 
 const MovieRateInfo = ({}) => {
   const location = useLocation();
-  const { title, tagline, description, poster, actors, rating } =
-    location.state || {};
+  const movieData = location.state || getRandMovie();
+  const { title, tagline, description, poster, actors } = movieData;
 
   if (!title) {
     return (
@@ -16,13 +18,25 @@ const MovieRateInfo = ({}) => {
     );
   }
 
-  const ratingNamb = parseInt(rating);
+  const user = getUserData();
+  const ratingNumb = parseInt(user.userRatings[title]) || 0; // Retrieve existing rating, default to 0
+  const [selectedRating, setSelectedRating] = useState(ratingNumb);
+
+  const handleRatingChange = (event) => {
+    setSelectedRating(parseInt(event.target.value)); // Update selected rating
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setUserRatings(title, selectedRating); // Save the rating
+    console.log(`Rating for "${title}" set to ${selectedRating}`);
+  };
 
   console.log(location.state);
 
   return (
     <main>
-      <div className="movieRateInfo">
+      <div className="movie-rate-info">
         <MovieInfo
           title={title}
           tagline={tagline}
@@ -42,7 +56,8 @@ const MovieRateInfo = ({}) => {
                     id={`star${starValue}`}
                     name="rate"
                     value={starValue}
-                    defaultChecked={ratingNamb === starValue} // Set default checked state
+                    defaultChecked={ratingNumb === starValue} // Set default checked state
+                    onChange={handleRatingChange}
                   />
                   <label
                     htmlFor={`star${starValue}`}
@@ -55,7 +70,14 @@ const MovieRateInfo = ({}) => {
             })}
           </div>
         </div>
-        <input type="submit" className="button-link" />
+        <button
+          type="submit"
+          className="button-link"
+          id="movie-rating-submit"
+          onClick={handleSubmit}
+        >
+          Submit
+        </button>
       </div>
     </main>
   );

@@ -1,6 +1,6 @@
 @import "../utility.scss";
 
-div.movie-last-watched {
+div.movie-info {
   display: flex;
   padding: 1em;
   justify-content: center;
@@ -124,5 +124,17 @@ div.movie-last-watched {
   & > input:checked ~ label:hover ~ label,
   & > label:hover ~ input:checked ~ label {
     color: gold;
+  }
+}
+
+.movie-rate-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  #movie-rating-submit {
+    width: 5em;
+    height: 2em;
   }
 }

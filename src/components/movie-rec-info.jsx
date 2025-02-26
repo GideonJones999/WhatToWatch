@@ -1,25 +1,9 @@
 import React from "react";
-import LastWatchedMovie from "./last-watched-movie";
-import { NavLink } from "react-router-dom";
 import MovieInfo from "./movie-info";
+import { getRandMovie } from "../util";
+import "../movie-rec/movie-rec.css";
 
 const MovieRecInfo = () => {
-  const getRandMovie = () => {
-    return {
-      title: "Spider-Man: No Way Home",
-      tagline: "The Multiverse unleashed.",
-      description:
-        "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
-      actors: ["Tom Holland", "Zendaya", "Benedict Cumberbatch"],
-      trailer: "https://youtu.be/1mTjfMFyPi8",
-      poster:
-        "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
-      whereToWatch: "Starz",
-      watchLink:
-        "https://therokuchannel.roku.com/details/e7c1c173526e5ea0930e70a731ee0776/spider-man-no-way-home",
-    };
-  };
-
   const {
     title,
     tagline,

@@ -2,7 +2,7 @@ import React from "react";
 
 const MovieInfo = ({ title, tagline, description, poster, actors }) => {
   return (
-    <div className="movie-last-watched">
+    <div className="movie-info">
       <img
         className="last-watched-poster"
         src={poster}

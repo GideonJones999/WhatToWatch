@@ -26,6 +26,23 @@ navLink.button-link button:hover {
   background-color: gold;
   letter-spacing: 0.05em;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);
-  width: 110%;
-  height: 110%;
+  transform: scale(1.1);
+}
+
+button.button-link {
+  margin: 0.5em;
+  background-color: teal;
+  border: none;
+  color: white;
+  border-radius: 1em;
+  cursor: pointer;
+  transition: 0.25s ease-in-out;
+  box-shadow: none;
+}
+button.button-link:hover {
+  transition: 0.25s ease-in-out;
+  background-color: gold;
+  letter-spacing: 0.05em;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);
+  transform: scale(1.1);
 }/*# sourceMappingURL=index.css.map */

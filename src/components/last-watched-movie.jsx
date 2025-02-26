@@ -29,7 +29,7 @@ const LastWatchedMovie = ({
       />
       <h4 className="last-watched-personal-rating">
         Your Rating:
-        <span className="last-watched-star-rating">{rating}</span>
+        <span className="last-watched-star-rating">{" " + rating + "/10"}</span>
       </h4>
       <button className="button-link" id="home-to-rating" onClick={handleNav}>
         See More

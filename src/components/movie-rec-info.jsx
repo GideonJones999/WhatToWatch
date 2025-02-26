@@ -31,6 +31,16 @@ const MovieRecInfo = () => {
     watchLink,
   } = getRandMovie();
 
+  function getYouTubeId(url) {
+    const regExp =
+      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = url.match(regExp);
+
+    return match && match[2].length === 11 ? match[2] : null;
+  }
+
+  const trailerID = getYouTubeId(trailer);
+
   return (
     <main>
       <div className="movie-rec-info">
@@ -42,7 +52,7 @@ const MovieRecInfo = () => {
           actors={actors}
         />
         <h4 className="where-to-watch">
-          You can watch this on
+          {"You can watch this on "}
           <a href={watchLink} target="_blank">
             {whereToWatch}
           </a>
@@ -51,7 +61,7 @@ const MovieRecInfo = () => {
         <iframe
           width="336"
           height="189"
-          src={trailer}
+          src={"//www.youtube.com/embed/" + trailerID}
           title="YouTube video player"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

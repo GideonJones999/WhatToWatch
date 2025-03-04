@@ -49,3 +49,7 @@ Added better page-responsive SCSS, mkaing the images bigger on smaller screens a
 ## React - 02/10/25
 
 Converted to React, also added functional contact menu on About page, and login. (The user is "admin" and the password is "password" until authentication is finished.)
+
+## React (2) - 02/26/25
+
+Converted many pages to React Components, supplied dummy data for API call functions, using React State to save information across pages (Movie Ratings, User Information, etc.)

@@ -1,21 +1,3 @@
-import axios from "axios";
-
-// export const getRandMovie = () => {
-//   return {
-//     title: "Spider-Man: No Way Home",
-//     tagline: "The Multiverse unleashed.",
-//     description:
-//       "Peter Parker is unmasked and no longer able to separate his normal life from the high-stakes of being a super-hero. When he asks for help from Doctor Strange the stakes become even more dangerous, forcing him to discover what it truly means to be Spider-Man.",
-//     actors: ["Tom Holland", "Zendaya", "Benedict Cumberbatch"],
-//     trailer: "https://youtu.be/1mTjfMFyPi8",
-//     poster:
-//       "https://www.themoviedb.org/t/p/w600_and_h900_bestv2/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
-//     whereToWatch: "Starz",
-//     watchLink:
-//       "https://therokuchannel.roku.com/details/e7c1c173526e5ea0930e70a731ee0776/spider-man-no-way-home",
-//   };
-// };
-
 var userName = "Profile Name";
 var userRating = "PG-13";
 var userServices = ["Disney+", "Max", "Netflix"];
@@ -23,15 +5,7 @@ var userGenres = ["Action", "Romance", "Comedy"];
 var userRatings = {
   "Avengers: Endgame": 10,
   Titanic: 6,
-  "The Gorge": 1,
-  "Mufasa: The Lion King": 1,
-  "Moana 2": 1,
-  "Sonic the Hedgehog 3": 8,
-  "Captain America: Brave New World": 5,
-  "Henry Danger: The Movie": 1,
-  "Venom: The Last Dance": 1,
-  "Dog Man": 10,
-  "Back in Action": 2,
+  "The Gorge": 2,
 };
 var userPicture = "";
 
@@ -75,7 +49,7 @@ export const fetchAuthentication = () => {
     .catch((err) => console.error(err));
 };
 
-export const getRandMovieAPI = async (page = 1) => {
+export const getRandMovieAPI = async (page = 1, maxPageLimit = 5) => {
   const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
   console.log("Page: ", page);
   const options = {
@@ -91,6 +65,7 @@ export const getRandMovieAPI = async (page = 1) => {
     const res = await fetch(url, options);
     if (!res.ok) throw new Error(`Failed to fetch data: ${res.status}`);
     const json = await res.json();
+    console.log(json);
 
     // Get user data
     const userData = getUserData();
@@ -127,11 +102,15 @@ export const getRandMovieAPI = async (page = 1) => {
     // Remove any null values (movies that were excluded)
     const validMovies = filteredMovies.filter((movie) => movie !== null);
 
-    if (validMovies.length === 0) {
-      return await getRandMovieAPI(page + 1); // Recursive call with updated page number
+    if (validMovies.length === 0 && page < maxPageLimit) {
+      return await getRandMovieAPI(page + 1, maxPageLimit); // Recursive call with updated page number
     }
 
-    return validMovies[0]; // Return the filtered list of movies
+    if (validMovies.length === 0) {
+      return null; // End recursion after reaching max page limit or if no valid movies found
+    }
+
+    return getFilmData(validMovies[0].id); // Return the filtered list of movies
   } catch (err) {
     console.error("Error fetching movie data:", err);
     return null; // Return null in case of error
@@ -154,6 +133,64 @@ export const getWhereToWatchIMDB = async (filmName) => {
     return json.description[0] || null;
   } catch (err) {
     console.error("Error fetching watch info:", err);
+    return null;
+  }
+};
+
+export const getWhereToWatchTMDB = async (filmId) => {
+  const url = `https://api.themoviedb.org/3/movie/${filmId}/watch/providers`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlYmY4MTFlYmYwZTQ1ZTVmZjI2OWU1NWI5MjgwMCIsIm5iZiI6MTYyMDMxNzM4Mi41MDMsInN1YiI6IjYwOTQxNGM2NzY0NmZkMDA1NzEyNWUxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.olDGNL1tW2PVLn57mFPU_oNHGJ5npZJroxE40BH6wQA",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    const json = await response.json();
+
+    // Return the US results from the response
+    return json.results["US"];
+  } catch (err) {
+    console.error("Error fetching watch providers:", err);
+    return null; // Return null if there is an error
+  }
+};
+
+export const getTrailer = async (filmId) => {
+  const url = `https://api.themoviedb.org/3/movie/${filmId}/videos?language=en-US`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlYmY4MTFlYmYwZTQ1ZTVmZjI2OWU1NWI5MjgwMCIsIm5iZiI6MTYyMDMxNzM4Mi41MDMsInN1YiI6IjYwOTQxNGM2NzY0NmZkMDA1NzEyNWUxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.olDGNL1tW2PVLn57mFPU_oNHGJ5npZJroxE40BH6wQA",
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok)
+      throw new Error(`Failed to fetch trailer: ${response.status}`);
+
+    const data = await response.json();
+    if (!data.results || data.results.length === 0) return null; // No videos found
+
+    // Prioritize official trailers, then any trailer
+    const officialTrailer = data.results.find(
+      (video) =>
+        video.type === "Trailer" && video.official && video.site === "YouTube"
+    );
+    const anyTrailer = data.results.find(
+      (video) => video.type === "Trailer" && video.site === "YouTube"
+    );
+
+    return officialTrailer || anyTrailer || null; // Return the best available trailer
+  } catch (err) {
+    console.error("Error fetching trailer:", err);
     return null;
   }
 };
@@ -241,9 +278,11 @@ export const getFilmData = async (filmId) => {
       return null; // Return early if rating fetch fails
     }
 
-    const whereToWatch = jsonData.title
-      ? await getWhereToWatchIMDB(jsonData.title)
-      : null;
+    const whereToWatch = await getWhereToWatchTMDB(filmId);
+    if (!whereToWatch) {
+      console.error("Failed to fetch Where to Watch", filmId);
+      return null;
+    }
 
     if (!whereToWatch) {
       console.error("Failed to fetch 'Where to Watch' data for movie", filmId);
@@ -255,14 +294,20 @@ export const getFilmData = async (filmId) => {
     }
     // console.log(jsonData, rating, whereToWatch);
 
+    const trailerURL = await getTrailer(filmId);
+    if (!trailerURL) {
+      console.log("Failed to fetch film Trailer", filmId);
+    }
+
     const title = jsonData.title;
     const tagline = jsonData.tagline;
     const actors = castMembers || [];
     const description = jsonData.overview;
     const poster = `https://image.tmdb.org/t/p/original${jsonData.poster_path}`;
-    const watchOffers = whereToWatch.offers || [];
+    const watchOffers = whereToWatch.buy || whereToWatch.flatrate;
     const userData = getUserData();
     const userRating = userData.userRatings[title] ?? 0;
+
     return {
       filmId,
       title,
@@ -273,6 +318,7 @@ export const getFilmData = async (filmId) => {
       rating,
       userRating,
       watchOffers,
+      trailer: trailerURL,
     };
   } catch (error) {
     console.error("Error fetching movie data:", error);

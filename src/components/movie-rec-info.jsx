@@ -1,29 +1,41 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import MovieInfo from "./movie-info";
 import { getRandMovieAPI } from "../util";
 import "../movie-rec/movie-rec.css";
 
 const MovieRecInfo = () => {
-  const {
-    title,
-    tagline,
-    description,
-    actors,
-    // trailer,
-    poster,
-    whereToWatch,
-    watchLink,
-  } = getRandMovieAPI();
+  const [movieData, setMovieData] = useState(null);
+  const [loading, setLoading] = useState(true); // Track loading state
 
-  // function getYouTubeId(url) {
-  //   const regExp =
-  //     /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-  //   const match = url.match(regExp);
+  useEffect(() => {
+    const fetchMovieData = async () => {
+      try {
+        const data = await getRandMovieAPI(1);
+        setMovieData(data);
+      } catch (error) {
+        console.error("Error fetching movie data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  //   return match && match[2].length === 11 ? match[2] : null;
-  // }
+    fetchMovieData();
+  }, []); // Runs only once when the component mounts
 
-  // const trailerID = getYouTubeId(trailer);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!movieData) {
+    return <div>Error loading movie data</div>;
+  }
+
+  const { title, tagline, description, actors, poster, watchOffers, trailer } =
+    movieData;
+
+  console.log(movieData);
+
+  console;
 
   return (
     <main>
@@ -37,22 +49,33 @@ const MovieRecInfo = () => {
         />
         <h4 className="where-to-watch">
           {"You can watch this on "}
-          <a href={watchLink} target="_blank">
-            {whereToWatch}
-          </a>
+          <ul>
+            {watchOffers.map((offer) => (
+              <li key={offer.name}>
+                <a href={offer.url} target="_blank" rel="noopener noreferrer">
+                  {offer.name}
+                </a>
+              </li>
+            ))}
+          </ul>
         </h4>
-        <h4 className="movie-trailer-tease">Watch the Trailer Here:</h4>
-        {/* <iframe
-          width="336"
-          height="189"
-          src={"//www.youtube.com/embed/" + trailerID}
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"
-          allowFullScreen
-          className="movie-trailer"
-        ></iframe> */}
+        {trailer && (
+          <h4 className="movie-trailer-tease">Watch the Trailer Here:</h4>
+        )}
+        {trailer && (
+          <iframe
+            width="336"
+            height="189"
+            src={"//www.youtube.com/embed/" + trailer.key}
+            title="YouTube video player"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowFullScreen
+            className="movie-trailer"
+          ></iframe>
+        )}
+
         <div className="rec-rating">
           <h3>Are you Interested?</h3>
           <a id="rating-no" className="button-link">

@@ -1,16 +1,55 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import MovieInfo from "./movie-info";
-import { getRandMovieAPI, getUserData, setUserRatings } from "../util";
+import {
+  getRandMovieAPI,
+  getUserData,
+  setUserRatings,
+  getFilmData,
+} from "../util";
 import "../rate/rate.css";
 
-const MovieRateInfo = ({}) => {
+const MovieRateInfo = () => {
   const location = useLocation();
-  const movieData = location.state || getRandMovieAPI();
-  const { title, tagline, description, poster, actors } = movieData;
+  const [movieData, setMovieData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedRating, setSelectedRating] = useState(0);
 
-  if (!title) {
+  useEffect(() => {
+    const fetchMovie = async () => {
+      try {
+        let data = location.state || (await getRandMovieAPI(1));
+        if (typeof data === "number") {
+          // If getRandMovieAPI returns an ID instead of movie data, fetch full movie data
+          data = await getFilmData(data);
+        }
+
+        if (!data || !data.title) {
+          throw new Error("Invalid movie data received");
+        }
+
+        setMovieData(data);
+        const user = getUserData();
+        setSelectedRating(parseInt(user.userRatings[data.title]) || 0);
+      } catch (error) {
+        console.error("Error fetching movie data:", error);
+        setMovieData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMovie();
+  }, [location.state]);
+
+  if (loading)
+    return (
+      <main>
+        <p>Loading...</p>
+      </main>
+    );
+
+  if (!movieData) {
     return (
       <main>
         <p>No movie data available. Please navigate from the home page.</p>
@@ -18,21 +57,17 @@ const MovieRateInfo = ({}) => {
     );
   }
 
-  const user = getUserData();
-  const ratingNumb = parseInt(user.userRatings[title]) || 0; // Retrieve existing rating, default to 0
-  const [selectedRating, setSelectedRating] = useState(ratingNumb);
+  const { title, tagline, description, poster, actors, trailer } = movieData;
 
   const handleRatingChange = (event) => {
-    setSelectedRating(parseInt(event.target.value)); // Update selected rating
+    setSelectedRating(parseInt(event.target.value));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    setUserRatings(title, selectedRating); // Save the rating
+    setUserRatings(title, selectedRating);
     console.log(`Rating for "${title}" set to ${selectedRating}`);
   };
-
-  console.log(location.state);
 
   return (
     <main>
@@ -44,6 +79,26 @@ const MovieRateInfo = ({}) => {
           poster={poster}
           actors={actors}
         />
+
+        {/* Trailer Section */}
+        {trailer && (
+          <>
+            <h4 className="movie-trailer-tease">Watch the Trailer Here:</h4>
+            <iframe
+              width="336"
+              height="189"
+              src={`https://www.youtube.com/embed/${trailer.key}`}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
+              className="movie-trailer"
+            ></iframe>
+          </>
+        )}
+
+        {/* Ratings Section */}
         <div className="ratings">
           <h3>Your Rating:</h3>
           <div className="rate">
@@ -56,7 +111,7 @@ const MovieRateInfo = ({}) => {
                     id={`star${starValue}`}
                     name="rate"
                     value={starValue}
-                    defaultChecked={ratingNumb === starValue} // Set default checked state
+                    checked={selectedRating === starValue}
                     onChange={handleRatingChange}
                   />
                   <label
@@ -70,6 +125,7 @@ const MovieRateInfo = ({}) => {
             })}
           </div>
         </div>
+
         <button
           type="submit"
           className="button-link"

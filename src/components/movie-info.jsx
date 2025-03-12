@@ -1,7 +1,7 @@
 import React from "react";
 
 const MovieInfo = ({ title, tagline, description, poster, actors = [] }) => {
-  console.log(actors);
+  // console.log(actors);
   return (
     <div className="movie-info">
       <img

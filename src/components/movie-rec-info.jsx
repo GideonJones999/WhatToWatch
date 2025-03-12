@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import MovieInfo from "./movie-info";
 import { getRandMovieAPI } from "../util";
 import "../movie-rec/movie-rec.css";
+import Loading from "./loading/loading";
 
 const MovieRecInfo = () => {
   const [movieData, setMovieData] = useState(null);
@@ -23,7 +24,7 @@ const MovieRecInfo = () => {
   }, []); // Runs only once when the component mounts
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!movieData) {

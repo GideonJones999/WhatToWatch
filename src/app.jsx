@@ -19,6 +19,7 @@ import Footer from "./footer/footer";
 import "./index.css";
 import MovieRateInfo from "./components/movie-rate-info";
 import MovieRecInfo from "./components/movie-rec-info";
+import MovieRateSearch from "./components/movie-rate-search";
 
 export default function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false); // State for login status
@@ -42,7 +43,7 @@ export default function App() {
         />
         <Route
           path="/rate"
-          element={isLoggedIn ? <MovieRateInfo /> : <Navigate to="/login" />}
+          element={isLoggedIn ? <MovieRateSearch /> : <Navigate to="/login" />}
         />
         <Route path="/about" element={<About />} />
         <Route

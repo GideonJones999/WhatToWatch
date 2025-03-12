@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import LastWatchedMovie from "../components/last-watched-movie";
 import "./home.css";
 import { getUserData, getRandMovieAPI, getFilmData, getFilmId } from "../util";
+import Loading from "../components/loading/loading";
 
 export default function Home() {
   const user = getUserData();
@@ -16,11 +17,8 @@ export default function Home() {
         const movieDataPromises = [];
 
         // Loop through the userRatings and fetch movie data
-        for (let movieName in userRatings) {
-          const filmId = await getFilmId(movieName); // Get filmId for the movie
-          if (filmId) {
-            movieDataPromises.push(getFilmData(filmId));
-          }
+        for (let filmId in userRatings) {
+          movieDataPromises.push(getFilmData(filmId));
         }
 
         // Wait for all the movie data to be fetched
@@ -39,11 +37,7 @@ export default function Home() {
   }, []);
 
   if (loading) {
-    return (
-      <main className="loading-screen">
-        <p>Loading your last watched movies...</p>
-      </main>
-    );
+    return <Loading />;
   }
 
   return (
@@ -58,7 +52,7 @@ export default function Home() {
             description={movie.description}
             poster={movie.poster}
             actors={movie.actors}
-            rating={user.userRatings[movie.title]}
+            rating={user.userRatings[movie.filmId]}
           />
         ))}
       </div>

@@ -1,13 +1,13 @@
 import { tmdbAuth } from "../security";
 
 var userName = "Profile Name";
-var userRating = "PG-13";
+var userRating = ["G", "PG", "PG-13"];
 var userServices = ["Disney+", "Max", "Netflix"];
 var userGenres = ["Action", "Romance", "Comedy"];
 var userRatings = {
-  "Avengers: Endgame": 10,
-  Titanic: 6,
-  "The Gorge": 2,
+  299534: 10,
+  746036: 10,
+  597: 6,
 };
 var userPicture = "";
 
@@ -24,14 +24,28 @@ export const getUserData = () => {
 
 export const setUserData = (name, rating, services, genres, picture) => {
   userName = name;
-  userRating = rating;
+  let userRatingPreference = [];
+  switch (rating) {
+    case "R":
+      userRatingPreference.push("R", "NR");
+    case "PG-13":
+      userRatingPreference.push("PG-13");
+    case "PG":
+      userRatingPreference.push("PG");
+    case "G":
+      userRatingPreference.push("G");
+      break;
+    default:
+      break;
+  }
+  userRating = userRatingPreference;
   userServices = services;
   userGenres = genres;
   userPicture = picture;
 };
 
-export const setUserRatings = (movie, rating) => {
-  userRatings[movie] = rating;
+export const setUserRatings = (movieID, rating) => {
+  userRatings[movieID] = rating;
 };
 
 export const fetchAuthentication = () => {
@@ -50,7 +64,7 @@ export const fetchAuthentication = () => {
     .catch((err) => console.error(err));
 };
 
-export const getRandMovieAPI = async (page = 1, maxPageLimit = 5) => {
+export const getRandMovieAPI = async (page = 1) => {
   const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
   console.log("Page: ", page);
   const options = {
@@ -69,17 +83,7 @@ export const getRandMovieAPI = async (page = 1, maxPageLimit = 5) => {
 
     // Get user data
     const userData = getUserData();
-    let userRatingPreference = [];
-    if (userData.userRating == "G") {
-      userRatingPreference = ["G"];
-    } else if (userData.userRating == "PG") {
-      userRatingPreference = ["G", "PG"];
-    } else if (userData.userRating == "PG-13") {
-      userRatingPreference = ["G", "PG", "PG-13"];
-    } else if (userData.userRating == "R") {
-      userRatingPreference = ["G", "PG", "PG-13", "R", "NR"];
-    }
-    // const userRatingPreference = userData.userRating; // Assuming userRating holds the certification preference
+    let userRatingPreference = userData.userRating;
 
     // Filter out movies based on certification and user ratings
     const filteredMovies = await Promise.all(
@@ -102,8 +106,8 @@ export const getRandMovieAPI = async (page = 1, maxPageLimit = 5) => {
     // Remove any null values (movies that were excluded)
     const validMovies = filteredMovies.filter((movie) => movie !== null);
 
-    if (validMovies.length === 0 && page < maxPageLimit) {
-      return await getRandMovieAPI(page + 1, maxPageLimit); // Recursive call with updated page number
+    if (validMovies.length === 0 && page < json.total_pages) {
+      return await getRandMovieAPI(page + 1); // Recursive call with updated page number
     }
 
     if (validMovies.length === 0) {
@@ -114,26 +118,6 @@ export const getRandMovieAPI = async (page = 1, maxPageLimit = 5) => {
   } catch (err) {
     console.error("Error fetching movie data:", err);
     return null; // Return null in case of error
-  }
-};
-
-export const getWhereToWatchIMDB = async (filmName) => {
-  const url = `https://imdb.iamidiotareyoutoo.com/justwatch?q=${filmName}`;
-
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error(`Failed to fetch: ${response.status}`);
-
-    const json = await response.json();
-
-    if (!json.description || json.description.length === 0) {
-      return null; // Return null if there are no options
-    }
-
-    return json.description[0] || null;
-  } catch (err) {
-    console.error("Error fetching watch info:", err);
-    return null;
   }
 };
 
@@ -154,7 +138,7 @@ export const getWhereToWatchTMDB = async (filmId) => {
     // Return the US results from the response
     const results = json?.results["US"] || [];
     // console.log(json.results);
-    console.log(results);
+    // console.log(results);
     const offers = [
       ...(results.buy || []),
       ...(results.flatrate || []),
@@ -227,7 +211,7 @@ export const getWhereToWatchTMDB = async (filmId) => {
     // Convert Map values to array
     const providers = Array.from(uniqueProviders.values());
 
-    console.log(providers);
+    // console.log(providers);
     return providers;
   } catch (err) {
     console.error("Error fetching watch providers:", err);
@@ -285,7 +269,10 @@ export const getFilmRating = async (filmId) => {
     const usRelease = json.results.find((entry) => entry.iso_3166_1 === "US");
 
     if (usRelease && usRelease.release_dates.length > 0) {
-      return usRelease.release_dates[0].certification || "NR"; // Return certification or "NR" if not found
+      return (
+        usRelease.release_dates[usRelease.release_dates.length - 1]
+          .certification || "NR"
+      ); // Return certification or "NR" if not found
     } else {
       return "NR"; // Return "NR" if no US release data
     }
@@ -420,6 +407,62 @@ export const getFilmId = async (filmName) => {
     }
   } catch (err) {
     console.error("Error fetching film ID:", err);
+    return null;
+  }
+};
+
+export const getFilmIdFiltered = async (filmName, page = 1) => {
+  const url = `https://api.themoviedb.org/3/search/movie?query=${filmName}&include_adult=false&language=en-US&page=${page}`;
+
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: tmdbAuth(),
+    },
+  };
+
+  try {
+    const res = await fetch(url, options);
+    if (!res.ok) throw new Error(`Failed to fetch data: ${res.status}`);
+    const json = await res.json();
+
+    // Get user data
+    const userData = getUserData();
+    let userRatingPreference = userData.userRating;
+    console.log("User Rating Preferences:", userRatingPreference);
+
+    // Fetch movie ratings asynchronously
+    const moviesWithRatings = await Promise.all(
+      json.results.map(async (movie) => {
+        const movieCertification = await getFilmRating(movie.id);
+        return { ...movie, certification: movieCertification };
+      })
+    );
+
+    // Filter movies based on user preferences
+    const validMovies = moviesWithRatings.filter(
+      (movie) =>
+        movie.certification &&
+        userRatingPreference.includes(movie.certification)
+    );
+
+    if (validMovies.length === 0 && page < json.total_pages) {
+      console.log(
+        `No valid movies found on page ${page}, fetching next page...`
+      );
+      return await getFilmIdFiltered(filmName, page + 1);
+    }
+
+    if (validMovies.length === 0) {
+      console.log("No suitable films found.");
+      return null;
+    }
+
+    console.log(`Returning movie:`, validMovies[0]);
+    return validMovies[0].id; // Return the first valid movie
+  } catch (err) {
+    console.error("Error fetching movie data:", err);
     return null;
   }
 };

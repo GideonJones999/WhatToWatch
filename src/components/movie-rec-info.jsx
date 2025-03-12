@@ -30,12 +30,10 @@ const MovieRecInfo = () => {
     return <div>Error loading movie data</div>;
   }
 
-  const { title, tagline, description, actors, poster, watchOffers, trailer } =
+  const { title, tagline, description, actors, poster, whereToWatch, trailer } =
     movieData;
 
   console.log(movieData);
-
-  console;
 
   return (
     <main>
@@ -50,10 +48,10 @@ const MovieRecInfo = () => {
         <h4 className="where-to-watch">
           {"You can watch this on "}
           <ul>
-            {watchOffers.map((offer) => (
-              <li key={offer.name}>
+            {whereToWatch.map((offer) => (
+              <li key={offer.provider_name}>
                 <a href={offer.url} target="_blank" rel="noopener noreferrer">
-                  {offer.name}
+                  {offer.provider_name}
                 </a>
               </li>
             ))}

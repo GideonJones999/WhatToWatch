@@ -48,15 +48,6 @@ export default function Home() {
           />
         ))}
       </div>
-      <div>
-        <button onClick={() => console.log(getRandMovieAPI())}>Get API</button>
-        <button onClick={() => console.log(getFilmData(120))}>
-          Get LotR Info
-        </button>
-        <button onClick={() => console.log(getFilmId("Avengers: Endgame"))}>
-          Get Endgame ID
-        </button>
-      </div>
       <div id="home-buttons">
         <NavLink className="button-link" to="/recommend">
           <button id="home-to-rec">What Should I Watch?</button>

@@ -153,7 +153,83 @@ export const getWhereToWatchTMDB = async (filmId) => {
     const json = await response.json();
 
     // Return the US results from the response
-    return json.results["US"];
+    const results = json?.results["US"] || [];
+    // console.log(json.results);
+    console.log(results);
+    const offers = [
+      ...(results.buy || []),
+      ...(results.flatrate || []),
+      ...(results.rent || []),
+    ];
+    const uniqueProviders = new Map(); // Use Map to ensure unique provider_id
+
+    for (let offer of offers) {
+      if (!uniqueProviders.has(offer.provider_id)) {
+        let provider_url;
+        switch (offer.provider_id) {
+          case 10:
+            provider_url = `https://www.amazon.com/gp/video/storefront`;
+            break;
+          case 2:
+          case 350:
+          case 2243:
+            provider_url = `https://tv.apple.com/us/`;
+            break;
+          case 3:
+            provider_url = "https://play.google.com/store/movies?hl=en_US";
+            break;
+          case 192:
+            provider_url = "https://www.youtube.com/feed/storefront";
+            break;
+          case 37:
+          case 7:
+            provider_url = "https://athome.fandango.com/";
+            break;
+          case 68:
+            provider_url =
+              "https://www.microsoft.com/en-us/store/movies-and-tv/";
+            break;
+          case 486:
+            provider_url = "https://watch.spectrum.net";
+            break;
+          case 1899:
+          case 1825:
+            provider_url = "https://www.max.com/";
+            break;
+          case 212:
+            provider_url = "https://hoopla.com/";
+            break;
+          case 257:
+            provider_url = "https://fubo.tv/";
+            break;
+          case 1853:
+          case 531:
+          case 582:
+          case 633:
+            provider_url = "https://paramountplus.com/";
+            break;
+          case 538:
+            provider_url = "https://plex.tv";
+            break;
+          case 34:
+            provider_url = "https://mgmplus.com";
+            break;
+          default:
+            provider_url = "https://google.com";
+            break;
+        }
+        uniqueProviders.set(offer.provider_id, {
+          provider_name: offer.provider_name,
+          url: provider_url,
+        });
+      }
+    }
+
+    // Convert Map values to array
+    const providers = Array.from(uniqueProviders.values());
+
+    console.log(providers);
+    return providers;
   } catch (err) {
     console.error("Error fetching watch providers:", err);
     return null; // Return null if there is an error
@@ -304,7 +380,6 @@ export const getFilmData = async (filmId) => {
     const actors = castMembers || [];
     const description = jsonData.overview;
     const poster = `https://image.tmdb.org/t/p/original${jsonData.poster_path}`;
-    const watchOffers = whereToWatch.buy || whereToWatch.flatrate;
     const userData = getUserData();
     const userRating = userData.userRatings[title] ?? 0;
 
@@ -317,7 +392,7 @@ export const getFilmData = async (filmId) => {
       poster,
       rating,
       userRating,
-      watchOffers,
+      whereToWatch,
       trailer: trailerURL,
     };
   } catch (error) {

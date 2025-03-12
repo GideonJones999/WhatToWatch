@@ -1,6 +1,6 @@
 import React from "react";
 import MovieInfo from "./movie-info";
-import { getRandMovie } from "../util";
+import { getRandMovieAPI } from "../util";
 import "../movie-rec/movie-rec.css";
 
 const MovieRecInfo = () => {
@@ -9,21 +9,21 @@ const MovieRecInfo = () => {
     tagline,
     description,
     actors,
-    trailer,
+    // trailer,
     poster,
     whereToWatch,
     watchLink,
-  } = getRandMovie();
+  } = getRandMovieAPI();
 
-  function getYouTubeId(url) {
-    const regExp =
-      /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url.match(regExp);
+  // function getYouTubeId(url) {
+  //   const regExp =
+  //     /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+  //   const match = url.match(regExp);
 
-    return match && match[2].length === 11 ? match[2] : null;
-  }
+  //   return match && match[2].length === 11 ? match[2] : null;
+  // }
 
-  const trailerID = getYouTubeId(trailer);
+  // const trailerID = getYouTubeId(trailer);
 
   return (
     <main>
@@ -42,7 +42,7 @@ const MovieRecInfo = () => {
           </a>
         </h4>
         <h4 className="movie-trailer-tease">Watch the Trailer Here:</h4>
-        <iframe
+        {/* <iframe
           width="336"
           height="189"
           src={"//www.youtube.com/embed/" + trailerID}
@@ -52,7 +52,7 @@ const MovieRecInfo = () => {
           referrerpolicy="strict-origin-when-cross-origin"
           allowFullScreen
           className="movie-trailer"
-        ></iframe>
+        ></iframe> */}
         <div className="rec-rating">
           <h3>Are you Interested?</h3>
           <a id="rating-no" className="button-link">

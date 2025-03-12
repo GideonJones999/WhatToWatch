@@ -1,45 +1,62 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import LastWatchedMovie from "../components/last-watched-movie";
 import "./home.css";
-import { getUserData } from "../util";
+import { getUserData, getRandMovieAPI, getFilmData, getFilmId } from "../util";
 
 export default function Home() {
   const user = getUserData();
+  const [userMovies, setUserMovies] = useState([]);
+
+  useEffect(() => {
+    const fetchMovies = async () => {
+      const userRatings = user.userRatings; // Get user ratings from the data
+      const movieDataPromises = [];
+
+      // Loop through the userRatings and fetch movie data
+      for (let movieName in userRatings) {
+        const filmId = await getFilmId(movieName); // Get filmId for the movie
+        if (filmId) {
+          // Fetch movie details if filmId is found
+          movieDataPromises.push(getFilmData(filmId));
+        }
+      }
+
+      // Wait for all the movie data to be fetched
+      const movies = await Promise.all(movieDataPromises);
+
+      // Filter out any null responses
+      setUserMovies(movies.filter((movie) => movie !== null));
+    };
+
+    fetchMovies(); // Call the fetch function when the component mounts
+  }, []);
+
   return (
     <main>
       <div className="last-watched-movies-container">
         <h2>Last Watched:</h2>
-
-        <LastWatchedMovie
-          title="Titanic"
-          tagline="Nothing on Earth could come between them."
-          description="101-year-old Rose DeWitt Bukater tells the story of her life
-              aboard the Titanic, 84 years later. A young Rose boards the ship
-              with her mother and fiancé. Meanwhile, Jack Dawson and Fabrizio De
-              Rossi win third-class tickets aboard the ship. Rose tells the
-              whole story from Titanic's departure through to its death—on its
-              first and last voyage—on April 15, 1912."
-          poster="https://image.tmdb.org/t/p/original/9xjZS2rlVxm8SFx8kPC3aIGCOYQ.jpg"
-          actors={["Leonardo DiCaprio", "Kate Winslet"]}
-          rating={user.userRatings["Titanic"]}
-        />
-
-        <LastWatchedMovie
-          poster="https://image.tmdb.org/t/p/original/ulzhLuWrPK07P1YkdWQLZnQh1JL.jpg"
-          title="Avengers: Endgame"
-          tagline="Avenge the fallen."
-          description="After the devastating events of Avengers: Infinity War, the
-              universe is in ruins due to the efforts of the Mad Titan, Thanos.
-              With the help of remaining allies, the Avengers must assemble once
-              more in order to undo Thanos' actions and restore order to the
-              universe once and for all, no matter what consequences may be in
-              store."
-          actors={["Robert Downey Jr.", "Chris Evans"]}
-          rating={user.userRatings["Avengers: Endgame"]}
-        />
+        {userMovies.map((movie) => (
+          <LastWatchedMovie
+            key={movie.filmId}
+            title={movie.title}
+            tagline={movie.tagline}
+            description={movie.description}
+            poster={movie.poster}
+            actors={movie.actors}
+            rating={user.userRatings[movie.title]}
+          />
+        ))}
       </div>
-
+      <div>
+        <button onClick={() => console.log(getRandMovieAPI())}>Get API</button>
+        <button onClick={() => console.log(getFilmData(120))}>
+          Get LotR Info
+        </button>
+        <button onClick={() => console.log(getFilmId("Avengers: Endgame"))}>
+          Get Endgame ID
+        </button>
+      </div>
       <div id="home-buttons">
         <NavLink className="button-link" to="/recommend">
           <button id="home-to-rec">What Should I Watch?</button>

@@ -2,12 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { useLocation } from "react-router-dom";
 import MovieInfo from "./movie-info";
-import { getRandMovie, getUserData, setUserRatings } from "../util";
+import { getRandMovieAPI, getUserData, setUserRatings } from "../util";
 import "../rate/rate.css";
 
 const MovieRateInfo = ({}) => {
   const location = useLocation();
-  const movieData = location.state || getRandMovie();
+  const movieData = location.state || getRandMovieAPI();
   const { title, tagline, description, poster, actors } = movieData;
 
   if (!title) {

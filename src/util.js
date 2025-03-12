@@ -1,3 +1,5 @@
+import { tmdbAuth } from "../security";
+
 var userName = "Profile Name";
 var userRating = "PG-13";
 var userServices = ["Disney+", "Max", "Netflix"];
@@ -38,8 +40,7 @@ export const fetchAuthentication = () => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlYmY4MTFlYmYwZTQ1ZTVmZjI2OWU1NWI5MjgwMCIsIm5iZiI6MTYyMDMxNzM4Mi41MDMsInN1YiI6IjYwOTQxNGM2NzY0NmZkMDA1NzEyNWUxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.olDGNL1tW2PVLn57mFPU_oNHGJ5npZJroxE40BH6wQA",
+      Authorization: tmdbAuth(),
     },
   };
 
@@ -56,8 +57,7 @@ export const getRandMovieAPI = async (page = 1, maxPageLimit = 5) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlYmY4MTFlYmYwZTQ1ZTVmZjI2OWU1NWI5MjgwMCIsIm5iZiI6MTYyMDMxNzM4Mi41MDMsInN1YiI6IjYwOTQxNGM2NzY0NmZkMDA1NzEyNWUxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.olDGNL1tW2PVLn57mFPU_oNHGJ5npZJroxE40BH6wQA",
+      Authorization: tmdbAuth(),
     },
   };
 
@@ -143,8 +143,7 @@ export const getWhereToWatchTMDB = async (filmId) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlYmY4MTFlYmYwZTQ1ZTVmZjI2OWU1NWI5MjgwMCIsIm5iZiI6MTYyMDMxNzM4Mi41MDMsInN1YiI6IjYwOTQxNGM2NzY0NmZkMDA1NzEyNWUxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.olDGNL1tW2PVLn57mFPU_oNHGJ5npZJroxE40BH6wQA",
+      Authorization: tmdbAuth(),
     },
   };
 
@@ -242,8 +241,7 @@ export const getTrailer = async (filmId) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlYmY4MTFlYmYwZTQ1ZTVmZjI2OWU1NWI5MjgwMCIsIm5iZiI6MTYyMDMxNzM4Mi41MDMsInN1YiI6IjYwOTQxNGM2NzY0NmZkMDA1NzEyNWUxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.olDGNL1tW2PVLn57mFPU_oNHGJ5npZJroxE40BH6wQA",
+      Authorization: tmdbAuth(),
     },
   };
 
@@ -277,8 +275,7 @@ export const getFilmRating = async (filmId) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlYmY4MTFlYmYwZTQ1ZTVmZjI2OWU1NWI5MjgwMCIsIm5iZiI6MTYyMDMxNzM4Mi41MDMsInN1YiI6IjYwOTQxNGM2NzY0NmZkMDA1NzEyNWUxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.olDGNL1tW2PVLn57mFPU_oNHGJ5npZJroxE40BH6wQA",
+      Authorization: tmdbAuth(),
     },
   };
 
@@ -304,8 +301,7 @@ export const getFilmActors = async (filmId) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlYmY4MTFlYmYwZTQ1ZTVmZjI2OWU1NWI5MjgwMCIsIm5iZiI6MTYyMDMxNzM4Mi41MDMsInN1YiI6IjYwOTQxNGM2NzY0NmZkMDA1NzEyNWUxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.olDGNL1tW2PVLn57mFPU_oNHGJ5npZJroxE40BH6wQA",
+      Authorization: tmdbAuth(),
     },
   };
 
@@ -333,8 +329,7 @@ export const getFilmData = async (filmId) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlYmY4MTFlYmYwZTQ1ZTVmZjI2OWU1NWI5MjgwMCIsIm5iZiI6MTYyMDMxNzM4Mi41MDMsInN1YiI6IjYwOTQxNGM2NzY0NmZkMDA1NzEyNWUxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.olDGNL1tW2PVLn57mFPU_oNHGJ5npZJroxE40BH6wQA",
+      Authorization: tmdbAuth(),
     },
   };
 
@@ -407,8 +402,7 @@ export const getFilmId = async (filmName) => {
     method: "GET",
     headers: {
       accept: "application/json",
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJkZjRlYmY4MTFlYmYwZTQ1ZTVmZjI2OWU1NWI5MjgwMCIsIm5iZiI6MTYyMDMxNzM4Mi41MDMsInN1YiI6IjYwOTQxNGM2NzY0NmZkMDA1NzEyNWUxNSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.olDGNL1tW2PVLn57mFPU_oNHGJ5npZJroxE40BH6wQA",
+      Authorization: tmdbAuth(),
     },
   };
 

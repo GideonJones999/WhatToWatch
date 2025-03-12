@@ -1,4 +1,4 @@
-@import "./utility.scss";
+@import "../utility.scss";
 body {
   div.group-container {
     width: 100%;
@@ -26,11 +26,10 @@ body {
         height: 3em;
       }
     }
-    a#group-get-rec {
-      button {
-        width: 50em;
-        height: 5em;
-      }
+
+    button#group-get-rec {
+      width: 50em;
+      height: 5em;
     }
   }
 }

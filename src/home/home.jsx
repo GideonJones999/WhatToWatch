@@ -7,30 +7,44 @@ import { getUserData, getRandMovieAPI, getFilmData, getFilmId } from "../util";
 export default function Home() {
   const user = getUserData();
   const [userMovies, setUserMovies] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const userRatings = user.userRatings; // Get user ratings from the data
-      const movieDataPromises = [];
+      try {
+        const userRatings = user.userRatings; // Get user ratings
+        const movieDataPromises = [];
 
-      // Loop through the userRatings and fetch movie data
-      for (let movieName in userRatings) {
-        const filmId = await getFilmId(movieName); // Get filmId for the movie
-        if (filmId) {
-          // Fetch movie details if filmId is found
-          movieDataPromises.push(getFilmData(filmId));
+        // Loop through the userRatings and fetch movie data
+        for (let movieName in userRatings) {
+          const filmId = await getFilmId(movieName); // Get filmId for the movie
+          if (filmId) {
+            movieDataPromises.push(getFilmData(filmId));
+          }
         }
+
+        // Wait for all the movie data to be fetched
+        const movies = await Promise.all(movieDataPromises);
+
+        // Filter out any null responses and update state
+        setUserMovies(movies.filter((movie) => movie !== null));
+      } catch (error) {
+        console.error("Error fetching user movies:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetching
       }
-
-      // Wait for all the movie data to be fetched
-      const movies = await Promise.all(movieDataPromises);
-
-      // Filter out any null responses
-      setUserMovies(movies.filter((movie) => movie !== null));
     };
 
     fetchMovies(); // Call the fetch function when the component mounts
   }, []);
+
+  if (loading) {
+    return (
+      <main className="loading-screen">
+        <p>Loading your last watched movies...</p>
+      </main>
+    );
+  }
 
   return (
     <main>

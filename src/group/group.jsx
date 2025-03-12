@@ -1,4 +1,6 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
+
 import "./group.css";
 
 export default function Group() {
@@ -53,9 +55,9 @@ export default function Group() {
           {" "}
           <button>Share</button>{" "}
         </a>
-        <a id="group-get-rec" className="button-link" href="./movie-rec.html">
-          <button>Get your Group Recommendation</button>
-        </a>
+        <NavLink className="button-link" to="/recommend">
+          <button id="group-get-rec">Get your Group Recommendation</button>
+        </NavLink>
       </div>
     </main>
   );

@@ -89,7 +89,7 @@ export const getRandMovieAPI = async (page = 1) => {
     const filteredMovies = await Promise.all(
       json.results.map(async (movie) => {
         const movieCertification = await getFilmRating(movie.id);
-        const userHasRated = userData.userRatings[movie.title];
+        const userHasRated = userData.userRatings[movie.id];
 
         // Exclude movies that don't match user certification preference or have already been rated
         if (

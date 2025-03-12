@@ -11,7 +11,7 @@ const MovieRecInfo = () => {
   useEffect(() => {
     const fetchMovieData = async () => {
       try {
-        const data = await getRandMovieAPI(1);
+        const data = await getRandMovieAPI();
         setMovieData(data);
       } catch (error) {
         console.error("Error fetching movie data:", error);

@@ -1,30 +1,28 @@
 import { tmdbAuth } from "../security";
 
-var userName = "Profile Name";
-var userRating = ["G", "PG", "PG-13"];
-var userServices = ["Disney+", "Max", "Netflix"];
-var userGenres = ["Action", "Romance", "Comedy"];
-var userRatings = {
-  299534: 10,
-  746036: 10,
-  597: 6,
-};
-var userPicture = "";
+let serverAddress = "http://localhost:3000";
 
-export const getUserData = () => {
-  return {
-    userName: userName,
-    userRating: userRating,
-    userServices: userServices,
-    userGenres: userGenres,
-    userRatings: userRatings,
-    userPicture: userPicture,
-  };
+export const getUserData = async () => {
+  console.log("Getting User Data");
+  try {
+    const response = await fetch(`${serverAddress}/api/user/me`, {
+      method: "GET",
+      credentials: "include", // Include authentication cookies if needed
+    });
+
+    if (!response.ok) throw new Error("Failed to fetch user data");
+
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error("Error fetching user data:", error);
+    return null;
+  }
 };
 
-export const setUserData = (name, rating, services, genres, picture) => {
-  userName = name;
-  let userRatingPreference = [];
+export const setUserData = async (name, rating, services, genres) => {
+  const userRatingPreference = [];
   switch (rating) {
     case "R":
       userRatingPreference.push("R", "NR");
@@ -38,14 +36,42 @@ export const setUserData = (name, rating, services, genres, picture) => {
     default:
       break;
   }
-  userRating = userRatingPreference;
-  userServices = services;
-  userGenres = genres;
-  userPicture = picture;
+
+  try {
+    const response = await fetch(`${serverAddress}/api/user`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        userName: name,
+        userMaxRating: rating,
+        userRating: userRatingPreference,
+        userServices: services,
+        userGenres: genres,
+      }),
+    });
+
+    if (!response.ok) throw new Error("Failed to update user data");
+  } catch (error) {
+    console.error("Error updating user data:", error);
+  }
 };
 
-export const setUserRatings = (movieID, rating) => {
-  userRatings[movieID] = rating;
+export const setUserRatings = async (movieID, rating) => {
+  try {
+    const response = await fetch(`${serverAddress}/api/user/ratings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ movieID, rating }),
+    });
+
+    if (!response.ok) throw new Error("Failed to update movie rating");
+  } catch (error) {
+    console.error("Error updating movie rating:", error);
+  }
 };
 
 export const fetchAuthentication = () => {
@@ -149,28 +175,28 @@ export const getWhereToWatchTMDB = async (filmId) => {
     for (let offer of offers) {
       if (!uniqueProviders.has(offer.provider_id)) {
         let provider_url;
+        let filmName = await getFilmName(filmId);
         switch (offer.provider_id) {
           case 10:
-            provider_url = `https://www.amazon.com/gp/video/storefront`;
+            provider_url = `https://www.amazon.com/s?k=${filmName}&i=movies-tv&rh=n%3A2625373011%2Cp_n_format_browse-bin%3A2650306011&dc`;
             break;
           case 2:
           case 350:
           case 2243:
-            provider_url = `https://tv.apple.com/us/`;
+            provider_url = `https://tv.apple.com/search?term=${filmName}`;
             break;
           case 3:
-            provider_url = "https://play.google.com/store/movies?hl=en_US";
+            provider_url = `https://play.google.com/store/search?q=${filmName}&c=movies&hl=en_US&gl=US`;
             break;
           case 192:
-            provider_url = "https://www.youtube.com/feed/storefront";
+            provider_url = `https://www.youtube.com/results?search_query=%22${filmName}%22+AND+%22YouTube+Movies%22%2C+channel`;
             break;
           case 37:
           case 7:
-            provider_url = "https://athome.fandango.com/";
+            provider_url = `https://athome.fandango.com/content/browse/search?minVisible=0&returnUrl=%252Fcontent%252Fbrowse%252Fuxrow%252FFandango-At-Home%252F13809&searchString=${filmName}`;
             break;
           case 68:
-            provider_url =
-              "https://www.microsoft.com/en-us/store/movies-and-tv/";
+            provider_url = `https://www.microsoft.com/en-us/search/shop/movies?q=${filmName}`;
             break;
           case 486:
             provider_url = "https://watch.spectrum.net";
@@ -463,6 +489,33 @@ export const getFilmIdFiltered = async (filmName, page = 1) => {
     return validMovies[0].id; // Return the first valid movie
   } catch (err) {
     console.error("Error fetching movie data:", err);
+    return null;
+  }
+};
+
+export const getFilmName = async (filmId) => {
+  const url = `https://api.themoviedb.org/3/movie/${filmId}?language=en-US`;
+  const options = {
+    method: "GET",
+    headers: {
+      accept: "application/json",
+      Authorization: tmdbAuth(),
+    },
+  };
+
+  try {
+    const response = await fetch(url, options);
+    if (!response.ok)
+      throw new Error(`Failed to fetch Movie Data: ${response.status}`);
+
+    const jsonData = await response.json();
+
+    if (!jsonData || !jsonData.title)
+      throw new Error("Invalid Movie Data Recieved");
+
+    return jsonData.title;
+  } catch (error) {
+    console.error("Error fetching movie title:", error);
     return null;
   }
 };

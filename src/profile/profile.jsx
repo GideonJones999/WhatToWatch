@@ -24,10 +24,9 @@ export default function Profile({ onLogout }) {
   const saveProfile = () => {
     setUserData(
       tempProfile.userName,
-      tempProfile.userRating,
+      tempProfile.userMaxRating,
       tempProfile.userServices,
-      tempProfile.userGenres,
-      tempProfile.userPicture
+      tempProfile.userGenres
     );
     setIsEditing(false);
   };
@@ -37,14 +36,10 @@ export default function Profile({ onLogout }) {
       <h1>Profile</h1>
 
       <div className="profile-container">
-        <img
-          className="profile-pic"
-          src="/temporary-profile-placeholder-1.jpg"
-        />
         <div className="profile-info">
           <h3 className="profile-name">{profile.userName}</h3>
           <h4 className="profile-preferred-rating">
-            Preferred Rating: {profile.userRating}
+            Preferred Rating: {profile.userMaxRating}
           </h4>
           <h4 className="profile-services-header">Streaming Services:</h4>
           <ul className="profile-services">
@@ -87,9 +82,12 @@ export default function Profile({ onLogout }) {
             />
             <label>Preferred Rating: </label>
             <select
-              value={tempProfile.userRating}
+              value={tempProfile.userMaxRating}
               onChange={(e) =>
-                setTempProfile({ ...tempProfile, userRating: e.target.value })
+                setTempProfile({
+                  ...tempProfile,
+                  userMaxRating: e.target.value,
+                })
               }
             >
               <option value="G">G</option>

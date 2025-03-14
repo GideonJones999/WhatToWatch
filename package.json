@@ -15,13 +15,29 @@
     "vite": "^6.1.0"
   },
   "dependencies": {
+    "@aws-amplify/auth": "^6.11.4",
     "@emailjs/browser": "^4.4.1",
+    "amazon-cognito-identity-js": "^6.3.12",
+    "aws-amplify": "^6.13.4",
+    "aws-sdk": "^2.1692.0",
     "axios": "^1.8.2",
+    "bcryptjs": "^3.0.2",
     "bootstrap": "^5.3.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "ejs": "^3.1.10",
+    "express": "^4.21.2",
+    "express-session": "^1.18.1",
     "firebase": "^11.3.1",
+    "install": "^0.13.0",
+    "mongoose": "^8.12.1",
+    "npm": "^10.9.2",
+    "openid-client": "^5.7.0",
     "react": "^19.0.0",
     "react-bootstrap": "^2.10.9",
     "react-dom": "^19.0.0",
-    "react-router-dom": "^7.1.5"
+    "react-router-dom": "^7.1.5",
+    "uuid": "^11.1.0"
   }
 }

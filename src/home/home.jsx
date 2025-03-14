@@ -14,6 +14,7 @@ export default function Home() {
     const fetchMovies = async () => {
       try {
         const userRatings = user.userRatings; // Get user ratings
+        console.log(userRatings);
         const movieDataPromises = [];
 
         // Loop through the userRatings and fetch movie data

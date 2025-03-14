@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Profile from "../profile/profile";
 
 // import Button from 'react-bootstrap/Button';
 
@@ -23,10 +24,7 @@ export function Authenticated(props) {
 
   return (
     <div>
-      <div className="playerName">{props.userName}</div>
-      <button variant="primary" onClick={() => navigate("/play")}>
-        Play
-      </button>
+      <Profile />
       <button variant="secondary" onClick={() => logout()}>
         Logout
       </button>

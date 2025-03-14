@@ -2,26 +2,73 @@ import { tmdbAuth } from "../security";
 
 let serverAddress = "http://localhost:3000";
 
-export const getUserData = async () => {
-  console.log("Getting User Data");
+export async function getUserDataAPI() {
   try {
-    const response = await fetch(`${serverAddress}/api/user/me`, {
+    const response = await fetch("http://localhost:3000/api/user/me", {
       method: "GET",
-      credentials: "include", // Include authentication cookies if needed
+      credentials: "include", // Include cookies in request
+      headers: {
+        "Content-Type": "application/json",
+      },
     });
 
-    if (!response.ok) throw new Error("Failed to fetch user data");
+    if (!response.ok) {
+      throw new Error(`Error: ${response.statusText}`);
+    }
 
-    const data = await response.json();
-    console.log(data);
-    return data;
+    const userData = await response.json();
+    console.log("User Data:", userData);
+    return userData;
   } catch (error) {
-    console.error("Error fetching user data:", error);
-    return null;
+    console.error("Failed to fetch user data:", error);
   }
+}
+
+let tempUser = {
+  userName: "test",
+  email: "gideon.w.jones@gmail.com",
+  userMaxRating: "PG-13",
+  userRating: ["G", "PG", "PG-13"],
+  userServices: ["Disney+", "Netflix"],
+  userGenres: ["Action", "Comedy"],
+  userRatings: [],
 };
 
-export const setUserData = async (name, rating, services, genres) => {
+export const getUserData = () => {
+  return {
+    userName: tempUser.userName,
+    email: tempUser.email,
+    userMaxRating: tempUser.userMaxRating,
+    userRating: tempUser.userRating,
+    userServices: tempUser.userServices,
+    userGenres: tempUser.userGenres,
+    userRatings: tempUser.userRatings,
+  };
+};
+
+export const setUserData = (name, rating, services, genres) => {
+  const userRatingPreference = [];
+  switch (rating) {
+    case "R":
+      userRatingPreference.push("R", "NR");
+    case "PG-13":
+      userRatingPreference.push("PG-13");
+    case "PG":
+      userRatingPreference.push("PG");
+    case "G":
+      userRatingPreference.push("G");
+      break;
+    default:
+      break;
+  }
+  tempUser.userName = name;
+  tempUser.userMaxRating = rating;
+  tempUser.userRating = userRatingPreference;
+  tempUser.userServices = services;
+  tempUser.userGenres = genres;
+};
+
+export const setUserDataAPI = async (name, rating, services, genres) => {
   const userRatingPreference = [];
   switch (rating) {
     case "R":
@@ -58,7 +105,7 @@ export const setUserData = async (name, rating, services, genres) => {
   }
 };
 
-export const setUserRatings = async (movieID, rating) => {
+export const setUserRatingsAPI = async (movieID, rating) => {
   try {
     const response = await fetch(`${serverAddress}/api/user/ratings`, {
       method: "POST",
@@ -72,6 +119,10 @@ export const setUserRatings = async (movieID, rating) => {
   } catch (error) {
     console.error("Error updating movie rating:", error);
   }
+};
+
+export const setUserRatings = (movieID, rating) => {
+  tempUser.userRatings[movieID] = rating;
 };
 
 export const fetchAuthentication = () => {

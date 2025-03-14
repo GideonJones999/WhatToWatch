@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 
 app.use(
   cors({
-    origin: "http://localhost:5174", // Allow requests from this origin
+    origin: "http://localhost:5173", // Allow requests from this origin
     methods: "GET,POST,PUT,DELETE", // Allow specific methods
     credentials: true, // Allow cookies to be sent with requests
   })
@@ -111,9 +111,16 @@ app.delete("/api/auth", async (req, res) => {
 });
 
 app.get("/api/user/me", async (req, res) => {
-  const token = req.cookies["token"];
-  const user = await getUser("token", token);
+  const token = req.cookies["token"]; // Extract token from cookies
+  if (!token) {
+    return res.status(401).send({ msg: "Unauthorized: No token provided" });
+  }
+
+  console.log(token);
+
+  const user = await getUser("token", token); // Find user by token
   if (user) {
+    console.log(user);
     res.send({
       email: user.email,
       userName: user.userName,
@@ -124,7 +131,7 @@ app.get("/api/user/me", async (req, res) => {
       userRatings: user.userRatings,
     });
   } else {
-    res.status(401).send({ msg: "Unauthorized" });
+    res.status(404).send({ msg: "User not found" });
   }
 });
 

@@ -8,6 +8,7 @@ export default function Profile({ onLogout }) {
   const [isEditing, setIsEditing] = useState(false);
 
   const profile = getUserData();
+  console.log(profile);
 
   const [tempProfile, setTempProfile] = useState({ ...profile });
 
@@ -60,9 +61,9 @@ export default function Profile({ onLogout }) {
           <a className="button-link" onClick={editProfile}>
             <button id="edit-profile">Edit Profile</button>
           </a>
-          <a className="button-link" onClick={handleLogout} id="logout-button">
+          {/* <a className="button-link" onClick={handleLogout} id="logout-button">
             <button>Log Out</button>
-          </a>
+          </a> */}
         </div>
       </div>
 

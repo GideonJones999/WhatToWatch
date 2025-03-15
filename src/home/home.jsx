@@ -5,15 +5,15 @@ import "./home.css";
 import { getUserData, getRandMovieAPI, getFilmData, getFilmId } from "../util";
 import Loading from "../components/loading/loading";
 
-export default function Home() {
-  const user = getUserData();
+export default function Home(user) {
+  console.log(user);
   const [userMovies, setUserMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchMovies = async () => {
       try {
-        const userRatings = user.userRatings; // Get user ratings
+        const userRatings = user.user.userRatings; // Get user ratings
         console.log(userRatings);
         const movieDataPromises = [];
 

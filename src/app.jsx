@@ -12,22 +12,25 @@ import "./index.css";
 import MovieRateInfo from "./components/movie-rate-info";
 import MovieRecInfo from "./components/movie-rec-info";
 import MovieRateSearch from "./components/movie-rate-search";
+import TestLogin from "./testLogin";
 
 export default function App() {
-  const [user, setUser] = React.useState(() => {
+  const [user, setUser] = useState(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
+    console.log("Local userData: ", userData);
     return userData || null;
   });
-  const currentAuthState = user
-    ? AuthState.Authenticated
-    : AuthState.Unauthenticated;
-  const [authState, setAuthState] = React.useState(currentAuthState);
+
+  const [authState, setAuthState] = useState(
+    user ? AuthState.Authenticated : AuthState.Unauthenticated
+  );
 
   const handleAuthChange = (userData, authState) => {
     setAuthState(authState);
     setUser(userData);
     if (authState === AuthState.Authenticated) {
       // Save all user information to localStorage
+      console.log("Setting User:", userData);
       localStorage.setItem("user", JSON.stringify(userData));
     } else {
       // Clear user data from localStorage on logout
@@ -38,17 +41,9 @@ export default function App() {
   return (
     <BrowserRouter>
       <Header />
+      {authState === AuthState.Unauthenticated && <Navigate to="/profile" />}
       <Routes>
-        <Route
-          path="/"
-          element={
-            authState === AuthState.Authenticated ? (
-              <Home />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
+        <Route path="/" element={<Home user={user} />} />
         <Route
           path="/login"
           element={
@@ -59,50 +54,23 @@ export default function App() {
             />
           }
         />
-        <Route
-          path="/group"
-          element={
-            authState === AuthState.Authenticated ? (
-              <Group />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/rate"
-          element={
-            authState === AuthState.Authenticated ? (
-              <MovieRateSearch />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
+        <Route path="/group" element={<Group user={user} />} />
+        <Route path="/rate" element={<MovieRateSearch user={user} />} />
         <Route path="/about" element={<About />} />
-        <Route
-          path="/recommend"
-          element={
-            authState === AuthState.Authenticated ? (
-              <MovieRecInfo />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
+        <Route path="/recommend" element={<MovieRecInfo user={user} />} />
         <Route
           path="/profile"
           element={
-            authState === AuthState.Authenticated ? (
-              <Profile
-                onLogout={() =>
-                  handleAuthChange(null, AuthState.Unauthenticated)
-                }
-              />
-            ) : (
-              <Navigate to="/login" />
-            )
+            <TestLogin
+              user={user}
+              onAuthChange={handleAuthChange}
+              onLogout={() => handleAuthChange(null, AuthState.Unauthenticated)}
+            />
           }
+        />
+        <Route
+          path="/test"
+          element={<TestLogin onAuthChange={handleAuthChange} />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

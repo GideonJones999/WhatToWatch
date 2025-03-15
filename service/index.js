@@ -1,144 +1,161 @@
 const express = require("express");
-const cookieParser = require("cookie-parser");
-const bcrypt = require("bcryptjs");
-const uuid = require("uuid");
+const cors = require("cors");
 const app = express();
+const cookieParser = require("cookie-parser");
+const uuid = require("uuid");
+const bcrypt = require("bcryptjs");
 
-const authCookieName = "token";
-
-let users = []; // Stores user data in memory (resets on restart)
-
-// Server port
-const port = process.argv.length > 2 ? process.argv[2] : 3000;
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: "GET,POST,PUT,DELETE",
+    credentials: true,
+  })
+);
 
 app.use(express.json());
 app.use(cookieParser());
-app.use(express.static("public"));
 
-var apiRouter = express.Router();
-app.use("/api", apiRouter);
+const users = []; // In-memory user store
 
-apiRouter.get("/", async (req, res) => {
-  return res.send("test");
-});
+/** Helper function to return only necessary user data */
+function getUserResponse(user) {
+  return {
+    email: user.email,
+    userName: user.userName,
+    userMaxRating: user.userMaxRating,
+    userRating: user.userRating,
+    userServices: user.userServices,
+    userGenres: user.userGenres,
+    userRatings: user.userRatings,
+  };
+}
 
-/** 🔹 Create a New User (Signup) */
-apiRouter.post("/auth/create", async (req, res) => {
-  if (users.find((u) => u.email === req.body.email)) {
+/** Create User */
+app.post("/api/auth/create", async (req, res) => {
+  const {
+    email,
+    password,
+    userName,
+    userMaxRating,
+    userRating,
+    userServices,
+    userGenres,
+    userRatings,
+  } = req.body;
+
+  if (await getUser("email", email)) {
     return res.status(409).send({ msg: "Existing user" });
   }
 
-  const passwordHash = await bcrypt.hash(req.body.password, 10);
-  const user = {
-    email: req.body.email,
-    password: passwordHash,
-    token: uuid.v4(),
-    userName: req.body.userName || "New User",
-    userMaxRating: req.body.userMaxRating || "PG-13",
-    userRating: req.body.userRating || ["G", "PG", "PG-13"],
-    userServices: req.body.userServices || [],
-    userGenres: req.body.userGenres || [],
-    userRatings: {}, // { movieID: rating }
-  };
-
-  users.push(user);
+  const user = await createUser(
+    email,
+    password,
+    userName,
+    userMaxRating,
+    userRating,
+    userServices,
+    userGenres,
+    userRatings
+  );
   setAuthCookie(res, user.token);
-  res.send({ email: user.email, userName: user.userName });
+
+  res.send(getUserResponse(user));
 });
 
-/** 🔹 Login an Existing User */
-apiRouter.post("/auth/login", async (req, res) => {
-  const user = users.find((u) => u.email === req.body.email);
+/** Login User */
+app.post("/api/auth/login", async (req, res) => {
+  const user = await getUser("email", req.body.email);
   if (user && (await bcrypt.compare(req.body.password, user.password))) {
-    user.token = uuid.v4(); // Generate new token
+    user.token = uuid.v4();
     setAuthCookie(res, user.token);
-    res.send({ email: user.email, userName: user.userName });
-    return;
+    return res.send(getUserResponse(user));
   }
   res.status(401).send({ msg: "Unauthorized" });
 });
 
-/** 🔹 Logout a User */
-apiRouter.delete("/auth/logout", async (req, res) => {
-  const user = users.find((u) => u.token === req.cookies[authCookieName]);
+/** Authenticate and Update User */
+app.put("/api/auth", async (req, res) => {
+  const user = await getUser("email", req.body.email);
+  if (user && (await bcrypt.compare(req.body.password, user.password))) {
+    setAuthCookie(res, user.token);
+    return res.send(getUserResponse(user));
+  }
+  res.status(401).send({ msg: "Unauthorized" });
+});
+
+/** Logout User */
+app.delete("/api/auth", async (req, res) => {
+  const user = await getUser("token", req.cookies["token"]);
+  if (user) clearAuthCookie(res, user);
+  res.send({});
+});
+
+/** Get Logged-in User Data */
+app.get("/api/user/me", async (req, res) => {
+  const user = await getUser("token", req.cookies["token"]);
   if (user) {
-    delete user.token;
+    return res.send(getUserResponse(user));
   }
-  res.clearCookie(authCookieName);
-  res.status(204).end();
+  res.status(404).send({ msg: "User not found" });
 });
 
-/** 🔹 Middleware: Verify Authentication */
-const verifyAuth = (req, res, next) => {
-  const user = users.find((u) => u.token === req.cookies[authCookieName]);
-  if (user) {
-    req.user = user;
-    next();
-  } else {
-    res.status(401).send({ msg: "Unauthorized" });
-  }
-};
+/** Update User Profile */
+app.put("/api/user/update", async (req, res) => {
+  const user = await getUser("token", req.cookies["token"]);
+  if (!user) return res.status(401).send({ msg: "Unauthorized" });
 
-/** 🔹 Update User Preferences */
-apiRouter.post("/user/preferences", verifyAuth, (req, res) => {
-  Object.assign(req.user, {
-    userName: req.body.userName || req.user.userName,
-    userMaxRating: req.body.userMaxRating || req.user.userMaxRating,
-    userRating: req.body.userRating || req.user.userRating,
-    userServices: req.body.userServices || req.user.userServices,
-    userGenres: req.body.userGenres || req.user.userGenres,
-  });
-
-  res.send({ msg: "User preferences updated successfully" });
+  Object.assign(user, req.body); // Update user fields dynamically
+  res.send(getUserResponse(user));
 });
 
-/** 🔹 Submit a Movie Rating */
-apiRouter.post("/user/rate", verifyAuth, (req, res) => {
-  const { movieID, rating } = req.body;
-
-  if (!movieID || rating === undefined) {
-    return res.status(400).send({ msg: "Invalid movie rating data" });
-  }
-
-  req.user.userRatings[movieID] = rating;
-  res.send({ msg: `Rated movie ${movieID} with ${rating}` });
-});
-
-/** 🔹 Retrieve User Data */
-apiRouter.get("/user/data", verifyAuth, (req, res) => {
-  const {
+/** Create a New User */
+async function createUser(
+  email,
+  password,
+  userName = "Default Name",
+  userMaxRating = "PG",
+  userRating = ["G", "PG", "PG-13"],
+  userServices = ["Netflix"],
+  userGenres = ["Action", "Drama"],
+  userRatings = {}
+) {
+  const passwordHash = await bcrypt.hash(password, 10);
+  const user = {
+    email,
+    password: passwordHash,
     userName,
     userMaxRating,
     userRating,
     userServices,
     userGenres,
     userRatings,
-  } = req.user;
-  res.send({
-    userName,
-    userMaxRating,
-    userRating,
-    userServices,
-    userGenres,
-    userRatings,
-  });
-});
+    token: uuid.v4(),
+  };
+  users.push(user);
+  return user;
+}
 
-/** 🔹 Retrieve User's Movie Ratings */
-apiRouter.get("/user/ratings", verifyAuth, (req, res) => {
-  res.send(req.user.userRatings);
-});
+/** Get User by Field */
+async function getUser(field, value) {
+  return value ? users.find((user) => user[field] === value) : null;
+}
 
-/** 🔹 Set Authentication Cookie */
-function setAuthCookie(res, authToken) {
-  res.cookie(authCookieName, authToken, {
+/** Set Authentication Cookie */
+function setAuthCookie(res, token) {
+  res.cookie("token", token, {
     secure: true,
     httpOnly: true,
     sameSite: "strict",
   });
 }
 
-/** 🔹 Start Server */
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+/** Clear Authentication Cookie */
+function clearAuthCookie(res, user) {
+  delete user.token;
+  res.clearCookie("token");
+}
+
+/** Start the Server */
+const port = 3000;
+app.listen(port, () => console.log(`Listening on port ${port}`));

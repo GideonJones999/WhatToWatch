@@ -1,14 +1,29 @@
-import React, { useState } from "react";
-import { getFilmId, getFilmIdFiltered, getFilmData } from "../util";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { getFilmIdFiltered, getFilmData } from "../util";
 import MovieRateInfo from "./movie-rate-info";
 import "../rate/rate.css";
 import Loading from "./loading/loading";
 
-const MovieRateSearch = () => {
+const MovieRateSearch = ({ user }) => {
+  const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
-  const [movieData, setMovieData] = useState(null);
+  const [movieData, setMovieData] = useState(location.state?.movieData || null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (movieData) {
+      console.log("Updated Movie Data:", movieData);
+    }
+  }, [movieData]);
+
+  useEffect(() => {
+    if (location.state?.movieData && !movieData) {
+      console.log("Loaded Movie from Nav:", location.state.movieData);
+      setMovieData(location.state.movieData);
+    }
+  }, [location.state, movieData]);
 
   const handleSearch = async (event) => {
     event.preventDefault();
@@ -28,7 +43,9 @@ const MovieRateSearch = () => {
       if (!data) {
         setError("Error fetching movie details.");
       } else {
+        console.log("Got movie Data", data);
         setMovieData(data);
+        console.log("Updated Movie Data (after setting state):", movieData); // This will log the old state (movieData is async)
       }
     } catch (err) {
       console.error("Error searching for movie:", err);
@@ -37,6 +54,8 @@ const MovieRateSearch = () => {
       setLoading(false);
     }
   };
+
+  console.log("Movie Data (before rendering):", movieData); // Debugging before rendering
 
   return (
     <main>
@@ -55,7 +74,12 @@ const MovieRateSearch = () => {
       {loading && <Loading />}
       {error && <p className="error-message">{error}</p>}
 
-      {movieData && <MovieRateInfo movieData={movieData} />}
+      {/* Conditional rendering for movieData */}
+      {!movieData ? (
+        <p>No movie selected. Search for a movie to rate.</p>
+      ) : (
+        <MovieRateInfo movieData={movieData} user={user} />
+      )}
     </main>
   );
 };

@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import MovieInfo from "./movie-info";
 
 const LastWatchedMovie = ({
+  id,
   title,
   tagline,
   description,
@@ -14,13 +15,16 @@ const LastWatchedMovie = ({
 
   const handleNav = () => {
     navigate("/rate", {
-      state: { title, tagline, description, poster, actors, rating },
+      state: {
+        movieData: { id, title, tagline, description, poster, actors, rating },
+      },
     });
   };
 
   return (
     <div className="movie-last-watched">
       <MovieInfo
+        id={id}
         title={title}
         tagline={tagline}
         description={description}

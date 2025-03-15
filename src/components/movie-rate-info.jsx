@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import MovieInfo from "./movie-info";
 import { getUserData, setUserRatings } from "../util";
+import MovieInfo from "./movie-info";
+import { updateUser } from "../../service/userAPI";
 import "../rate/rate.css";
 
-const MovieRateInfo = ({ movieData }) => {
-  const [selectedRating, setSelectedRating] = useState(0);
+const MovieRateInfo = ({ user: userData, movieData }) => {
+  const [selectedRating, setSelectedRating] = useState(movieData?.rating || 0);
 
   if (!movieData) {
     return (
@@ -16,16 +17,52 @@ const MovieRateInfo = ({ movieData }) => {
 
   const { filmId, title, tagline, description, poster, actors, trailer } =
     movieData;
-  const user = getUserData();
+  const user = userData;
 
   const handleRatingChange = (event) => {
     setSelectedRating(parseInt(event.target.value));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setUserRatings(filmId, selectedRating);
-    console.log(`Rating for "${title}" set to ${selectedRating}`);
+
+    if (!user) {
+      console.error("User is not defined.");
+      return;
+    }
+
+    // Ensure userRatings is an array
+    let updatedRatings = Array.isArray(user.userRatings)
+      ? [...user.userRatings]
+      : [];
+
+    // Check if the movie already has a rating
+    const existingIndex = updatedRatings.findIndex((r) => r.id === filmId);
+    console.log(existingIndex);
+
+    if (existingIndex !== -1) {
+      // Update existing rating
+      console.log("Pre:", updatedRatings);
+      console.log(updatedRatings[existingIndex], selectedRating);
+      updatedRatings[existingIndex].rating = selectedRating;
+      console.log("Post:", updatedRatings);
+    } else {
+      // Add new rating
+      updatedRatings.push({ filmId, rating: selectedRating });
+    }
+
+    // Create a new user object with updated ratings
+    const updatedUser = {
+      ...user,
+      userRatings: updatedRatings,
+    };
+
+    try {
+      const response = await updateUser(updatedUser);
+      console.log("User updated successfully:", response);
+    } catch (error) {
+      console.error("Error updating user:", error);
+    }
   };
 
   return (

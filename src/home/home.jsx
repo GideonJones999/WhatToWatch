@@ -10,52 +10,57 @@ export default function Home(user) {
   const [userMovies, setUserMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const userRatings = user.user?.userRatings || [];
+
   useEffect(() => {
     const fetchMovies = async () => {
       try {
         const userRatings = user.user.userRatings; // Get user ratings
         console.log(userRatings);
-        const movieDataPromises = [];
+        const movieDataPromises = userRatings.map((rating) =>
+          getFilmData(rating.filmId)
+        );
 
-        // Loop through the userRatings and fetch movie data
-        for (let filmId in userRatings) {
-          movieDataPromises.push(getFilmData(filmId));
-        }
-
-        // Wait for all the movie data to be fetched
         const movies = await Promise.all(movieDataPromises);
-
-        // Filter out any null responses and update state
         setUserMovies(movies.filter((movie) => movie !== null));
       } catch (error) {
         console.error("Error fetching user movies:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetching
+        setLoading(false);
       }
     };
 
-    fetchMovies(); // Call the fetch function when the component mounts
+    fetchMovies();
   }, []);
 
   if (loading) {
     return <Loading />;
   }
 
+  if (!loading) {
+    console.log(userMovies);
+  }
+
   return (
     <main>
       <div className="last-watched-movies-container">
         <h2>Last Watched:</h2>
-        {userMovies.map((movie) => (
-          <LastWatchedMovie
-            key={movie.filmId}
-            title={movie.title}
-            tagline={movie.tagline}
-            description={movie.description}
-            poster={movie.poster}
-            actors={movie.actors}
-            rating={user.userRatings[movie.filmId]}
-          />
-        ))}
+        {userMovies.map((movie) => {
+          // const userRating = );
+          const userRating = userRatings.find((r) => r.filmId === movie.filmId);
+
+          return (
+            <LastWatchedMovie
+              id={movie.filmId}
+              title={movie.title}
+              tagline={movie.tagline}
+              description={movie.description}
+              poster={movie.poster}
+              actors={movie.actors}
+              rating={userRating ? userRating.rating : "N/A"}
+            />
+          );
+        })}
       </div>
       <div id="home-buttons">
         <NavLink className="button-link" to="/recommend">

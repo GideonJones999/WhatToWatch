@@ -118,7 +118,7 @@ async function createUser(
   userRating = ["G", "PG", "PG-13"],
   userServices = ["Netflix"],
   userGenres = ["Action", "Drama"],
-  userRatings = {}
+  userRatings = []
 ) {
   const passwordHash = await bcrypt.hash(password, 10);
   const user = {

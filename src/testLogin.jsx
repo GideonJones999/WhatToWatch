@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   createUser,
   loginUser,
@@ -27,6 +27,10 @@ export default function TestLogin({ onAuthChange, userPassed }) {
     email: "",
     password: "",
   });
+
+  useEffect(() => {
+    handleGetCurrentUser();
+  }, []);
 
   // Handle Form Changes
   const handleRegisterChange = (e) => {
@@ -99,8 +103,8 @@ export default function TestLogin({ onAuthChange, userPassed }) {
               Logged in as: {user.userName} ({user.email})
             </p>
             <button onClick={handleGetCurrentUser}>Refresh User</button>
+            <Profile user={user} refreshUser={handleGetCurrentUser} />
             <button onClick={handleLogout}>Logout</button>
-            <Profile user={user} onLogout={handleLogout} />
           </div>
         ) : (
           <>

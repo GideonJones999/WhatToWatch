@@ -1,22 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./profile.css";
-import { getUserData, setUserData } from "../util";
-import { updateUser } from "../../service/userAPI";
+import { updateUser, getCurrentUser } from "../../service/userAPI";
+import Loading from "../components/loading/loading";
 
-export default function Profile({ user, onLogout }) {
-  const navigate = useNavigate();
+export default function Profile({ user, refreshUser }) {
   const [isEditing, setIsEditing] = useState(false);
 
   const profile = user;
   console.log(profile);
 
   const [tempProfile, setTempProfile] = useState({ ...profile });
-
-  const handleLogout = () => {
-    onLogout();
-    navigate("/login");
-  };
 
   const editProfile = () => {
     setTempProfile({ ...profile });
@@ -34,11 +28,20 @@ export default function Profile({ user, onLogout }) {
     try {
       const response = await updateUser(updatedUser);
       console.log("User Updated Successfully:", response);
+      refreshUser();
     } catch (err) {
       console.error("Error updating user:", error);
     }
     setIsEditing(false);
   };
+
+  useEffect(() => {
+    if (!user) {
+      refreshUser(); // Fetch user data when the Profile page loads
+    }
+  }, [user, refreshUser]);
+
+  if (!user) return <Loading />;
 
   return (
     <>
@@ -69,9 +72,6 @@ export default function Profile({ user, onLogout }) {
           <a className="button-link" onClick={editProfile}>
             <button id="edit-profile">Edit Profile</button>
           </a>
-          {/* <a className="button-link" onClick={handleLogout} id="logout-button">
-            <button>Log Out</button>
-          </a> */}
         </div>
       </div>
 

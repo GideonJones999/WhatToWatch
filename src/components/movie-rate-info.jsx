@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { getUserData, setUserRatings } from "../util";
 import MovieInfo from "./movie-info";
 import { updateUser } from "../../service/userAPI";
 import "../rate/rate.css";
@@ -38,16 +37,9 @@ const MovieRateInfo = ({ user: userData, movieData }) => {
 
     // Check if the movie already has a rating
     const existingIndex = updatedRatings.findIndex((r) => r.id === filmId);
-    // console.log(existingIndex);
-
     if (existingIndex !== -1) {
-      // Update existing rating
-      // console.log("Pre:", updatedRatings);
-      // console.log(updatedRatings[existingIndex], selectedRating);
       updatedRatings[existingIndex].rating = selectedRating;
-      // console.log("Post:", updatedRatings);
     } else {
-      // Add new rating
       updatedRatings.push({ filmId, rating: selectedRating });
     }
 

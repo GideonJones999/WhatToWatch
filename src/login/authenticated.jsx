@@ -24,7 +24,7 @@ export function Authenticated(props) {
 
   return (
     <div>
-      <Profile />
+      <Profile user={props.user} />
       <button variant="secondary" onClick={() => logout()}>
         Logout
       </button>

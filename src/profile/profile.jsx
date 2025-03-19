@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./profile.css";
 import { getUserData, setUserData } from "../util";
+import { updateUser } from "../../service/userAPI";
 
-export default function Profile({ onLogout }) {
+export default function Profile({ user, onLogout }) {
   const navigate = useNavigate();
   const [isEditing, setIsEditing] = useState(false);
 
-  const profile = getUserData();
+  const profile = user;
   console.log(profile);
 
   const [tempProfile, setTempProfile] = useState({ ...profile });
@@ -22,18 +23,25 @@ export default function Profile({ onLogout }) {
     setIsEditing(true);
   };
 
-  const saveProfile = () => {
-    setUserData(
-      tempProfile.userName,
-      tempProfile.userMaxRating,
-      tempProfile.userServices,
-      tempProfile.userGenres
-    );
+  const saveProfile = async () => {
+    const updatedUser = {
+      ...profile,
+      userName: tempProfile.userName,
+      userMaxRating: tempProfile.userMaxRating,
+      userServices: tempProfile.userServices,
+      userGenres: tempProfile.userGenres,
+    };
+    try {
+      const response = await updateUser(updatedUser);
+      console.log("User Updated Successfully:", response);
+    } catch (err) {
+      console.error("Error updating user:", error);
+    }
     setIsEditing(false);
   };
 
   return (
-    <main>
+    <>
       <h1>Profile</h1>
 
       <div className="profile-container">
@@ -126,6 +134,6 @@ export default function Profile({ onLogout }) {
           </div>
         </div>
       )}
-    </main>
+    </>
   );
 }

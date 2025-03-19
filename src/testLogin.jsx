@@ -5,6 +5,7 @@ import {
   getCurrentUser,
   logoutUser,
 } from "../service/userAPI";
+import Profile from "./profile/profile";
 
 export default function TestLogin({ onAuthChange, userPassed }) {
   console.log(userPassed);
@@ -99,6 +100,7 @@ export default function TestLogin({ onAuthChange, userPassed }) {
             </p>
             <button onClick={handleGetCurrentUser}>Refresh User</button>
             <button onClick={handleLogout}>Logout</button>
+            <Profile user={user} onLogout={handleLogout} />
           </div>
         ) : (
           <>

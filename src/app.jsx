@@ -1,15 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { AuthState } from "./login/authState";
-import Login from "./login/login";
 import About from "./about/about";
 import Home from "./home/home";
-import Profile from "./profile/profile";
 import Group from "./group/group";
 import Header from "./header/header";
 import Footer from "./footer/footer";
 import "./index.css";
-import MovieRateInfo from "./components/movie-rate-info";
 import MovieRecInfo from "./components/movie-rec-info";
 import MovieRateSearch from "./components/movie-rate-search";
 import TestLogin from "./testLogin";
@@ -44,16 +41,6 @@ export default function App() {
       {authState === AuthState.Unauthenticated && <Navigate to="/profile" />}
       <Routes>
         <Route path="/" element={<Home user={user} />} />
-        <Route
-          path="/login"
-          element={
-            <Login
-              user={user}
-              authState={authState}
-              onAuthChange={handleAuthChange}
-            />
-          }
-        />
         <Route path="/group" element={<Group user={user} />} />
         <Route path="/rate" element={<MovieRateSearch user={user} />} />
         <Route path="/about" element={<About />} />

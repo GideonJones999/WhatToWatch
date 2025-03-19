@@ -3,42 +3,45 @@ import { NavLink } from "react-router-dom";
 import LastWatchedMovie from "../components/last-watched-movie";
 import "./home.css";
 import { getUserData, getRandMovieAPI, getFilmData, getFilmId } from "../util";
+import {
+  createUser,
+  loginUser,
+  getCurrentUser,
+  logoutUser,
+} from "../../service/userAPI";
 import Loading from "../components/loading/loading";
 
-export default function Home(user) {
-  console.log(user);
+export default function Home() {
+  const [user, setUser] = useState(null); // Initialize user state
   const [userMovies, setUserMovies] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const userRatings = user.user?.userRatings || [];
-
   useEffect(() => {
-    const fetchMovies = async () => {
+    const fetchUserAndMovies = async () => {
       try {
-        const userRatings = user.user.userRatings; // Get user ratings
-        console.log(userRatings);
-        const movieDataPromises = userRatings.map((rating) =>
-          getFilmData(rating.filmId)
-        );
+        const currentUser = await getCurrentUser(); // Fetch current user
+        setUser(currentUser); // Set user data
 
-        const movies = await Promise.all(movieDataPromises);
-        setUserMovies(movies.filter((movie) => movie !== null));
+        if (currentUser?.userRatings) {
+          const movieDataPromises = currentUser.userRatings.map((rating) =>
+            getFilmData(rating.filmId)
+          );
+
+          const movies = await Promise.all(movieDataPromises);
+          setUserMovies(movies.filter((movie) => movie !== null));
+        }
       } catch (error) {
-        console.error("Error fetching user movies:", error);
+        console.error("Error fetching user or movies:", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchMovies();
-  }, []);
+    fetchUserAndMovies();
+  }, []); // Empty dependency array ensures it runs on initial render only
 
   if (loading) {
     return <Loading />;
-  }
-
-  if (!loading) {
-    console.log(userMovies);
   }
 
   return (
@@ -47,7 +50,9 @@ export default function Home(user) {
         <h2>Last Watched:</h2>
         {userMovies.map((movie) => {
           // const userRating = );
-          const userRating = userRatings.find((r) => r.filmId === movie.filmId);
+          const userRating = user.userRatings.find(
+            (r) => r.filmId === movie.filmId
+          );
 
           return (
             <LastWatchedMovie

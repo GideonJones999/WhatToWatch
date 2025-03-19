@@ -5,7 +5,7 @@ import MovieRateInfo from "./movie-rate-info";
 import "../rate/rate.css";
 import Loading from "./loading/loading";
 
-const MovieRateSearch = ({ user }) => {
+const MovieRateSearch = ({ user, setUser }) => {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useState("");
   const [movieData, setMovieData] = useState(location.state?.movieData || null);
@@ -20,7 +20,6 @@ const MovieRateSearch = ({ user }) => {
 
   useEffect(() => {
     if (location.state?.movieData && !movieData) {
-      // console.log("Loaded Movie from Nav:", location.state.movieData);
       setMovieData(location.state.movieData);
     }
   }, [location.state, movieData]);
@@ -43,9 +42,7 @@ const MovieRateSearch = ({ user }) => {
       if (!data) {
         setError("Error fetching movie details.");
       } else {
-        // console.log("Got movie Data", data);
         setMovieData(data);
-        // console.log("Updated Movie Data (after setting state):", movieData); // This will log the old state (movieData is async)
       }
     } catch (err) {
       console.error("Error searching for movie:", err);
@@ -55,7 +52,9 @@ const MovieRateSearch = ({ user }) => {
     }
   };
 
-  // console.log("Movie Data (before rendering):", movieData); // Debugging before rendering
+  const handleUserUpdate = (updatedUser) => {
+    setUser(updatedUser); // Update the user state in the parent
+  };
 
   return (
     <main>
@@ -78,7 +77,11 @@ const MovieRateSearch = ({ user }) => {
       {!movieData ? (
         <p>No movie selected. Search for a movie to rate.</p>
       ) : (
-        <MovieRateInfo movieData={movieData} user={user} />
+        <MovieRateInfo
+          movieData={movieData}
+          user={user}
+          onUserUpdate={handleUserUpdate}
+        />
       )}
     </main>
   );

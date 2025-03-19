@@ -10,11 +10,14 @@ import "./index.css";
 import MovieRecInfo from "./components/movie-rec-info";
 import MovieRateSearch from "./components/movie-rate-search";
 import TestLogin from "./testLogin";
+import { getCurrentUser } from "../service/userAPI";
+import Loading from "./components/loading/loading";
 
 export default function App() {
   const [user, setUser] = useState(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
-    console.log("Local userData: ", userData);
+    console.log(userData);
+    console.log("Global User Updated");
     return userData || null;
   });
 
@@ -22,18 +25,49 @@ export default function App() {
     user ? AuthState.Authenticated : AuthState.Unauthenticated
   );
 
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const handleGetCurrentUser = async () => {
+      try {
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          setUser(currentUser);
+          setAuthState(AuthState.Authenticated);
+          localStorage.setItem("user", JSON.stringify(currentUser)); // Store user data
+        } else {
+          setAuthState(AuthState.Unauthenticated);
+        }
+      } catch (err) {
+        console.error("Error fetching current user:", err);
+        setAuthState(AuthState.Unauthenticated); // Handle any fetch errors
+      } finally {
+        setLoading(false); // Set loading to false once fetch completes
+      }
+    };
+
+    if (user) {
+      handleGetCurrentUser();
+    } else {
+      setLoading(false); // If no user in localStorage, just finish loading
+    }
+  }, [user]); // Only run once on mount
+
   const handleAuthChange = (userData, authState) => {
     setAuthState(authState);
     setUser(userData);
     if (authState === AuthState.Authenticated) {
       // Save all user information to localStorage
-      console.log("Setting User:", userData);
       localStorage.setItem("user", JSON.stringify(userData));
     } else {
       // Clear user data from localStorage on logout
       localStorage.removeItem("user");
     }
   };
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <BrowserRouter>
@@ -54,10 +88,6 @@ export default function App() {
               onLogout={() => handleAuthChange(null, AuthState.Unauthenticated)}
             />
           }
-        />
-        <Route
-          path="/test"
-          element={<TestLogin onAuthChange={handleAuthChange} />}
         />
         <Route path="*" element={<NotFound />} />
       </Routes>

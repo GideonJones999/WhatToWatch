@@ -2,13 +2,8 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import LastWatchedMovie from "../components/last-watched-movie";
 import "./home.css";
-import { getUserData, getRandMovieAPI, getFilmData, getFilmId } from "../util";
-import {
-  createUser,
-  loginUser,
-  getCurrentUser,
-  logoutUser,
-} from "../../service/userAPI";
+import { getFilmData } from "../util";
+import { getCurrentUser } from "../../service/userAPI";
 import Loading from "../components/loading/loading";
 
 export default function Home() {
@@ -46,14 +41,23 @@ export default function Home() {
 
   return (
     <main>
+      <div id="home-buttons">
+        <NavLink className="button-link" to="/recommend">
+          <button id="home-to-rec">What Should I Watch?</button>
+        </NavLink>
+        <NavLink className="button-link" to="/group">
+          <button id="home-to-group">What Should We Watch?</button>
+        </NavLink>
+        <NavLink className="button-link" to="/rate">
+          <button id="home-to-rating">What Do I Like?</button>
+        </NavLink>
+      </div>
       <div className="last-watched-movies-container">
         <h2>Last Watched:</h2>
         {userMovies.map((movie) => {
-          // const userRating = );
           const userRating = user.userRatings.find(
             (r) => r.filmId === movie.filmId
           );
-
           return (
             <LastWatchedMovie
               id={movie.filmId}
@@ -66,17 +70,6 @@ export default function Home() {
             />
           );
         })}
-      </div>
-      <div id="home-buttons">
-        <NavLink className="button-link" to="/recommend">
-          <button id="home-to-rec">What Should I Watch?</button>
-        </NavLink>
-        <NavLink className="button-link" to="/group">
-          <button id="home-to-group">What Should We Watch?</button>
-        </NavLink>
-        <NavLink className="button-link" to="/rate">
-          <button id="home-to-rating">What Do I Like?</button>
-        </NavLink>
       </div>
     </main>
   );

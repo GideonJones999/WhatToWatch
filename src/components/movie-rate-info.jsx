@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import MovieInfo from "./movie-info";
-import { updateUser } from "../../service/userAPI";
+import { updateUser, getCurrentUser } from "../../service/userAPI";
 import "../rate/rate.css";
 
-const MovieRateInfo = ({ user: userData, movieData }) => {
+const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
   const [selectedRating, setSelectedRating] = useState(movieData?.rating || 0);
 
   if (!movieData) {
@@ -16,7 +16,6 @@ const MovieRateInfo = ({ user: userData, movieData }) => {
 
   const { filmId, title, tagline, description, poster, actors, trailer } =
     movieData;
-  const user = userData;
 
   const handleRatingChange = (event) => {
     setSelectedRating(parseInt(event.target.value));
@@ -40,7 +39,10 @@ const MovieRateInfo = ({ user: userData, movieData }) => {
     if (existingIndex !== -1) {
       updatedRatings[existingIndex].rating = selectedRating;
     } else {
-      updatedRatings.push({ filmId, rating: selectedRating });
+      updatedRatings = [
+        { filmId, rating: selectedRating },
+        ...user.userRatings,
+      ];
     }
 
     // Create a new user object with updated ratings
@@ -52,6 +54,10 @@ const MovieRateInfo = ({ user: userData, movieData }) => {
     try {
       const response = await updateUser(updatedUser);
       console.log("User updated successfully:", response);
+      const updatedUserData = await getCurrentUser();
+      if (updatedUserData) {
+        onUserUpdate(updatedUserData); // Update the parent component with the new user data
+      }
     } catch (error) {
       console.error("Error updating user:", error);
     }

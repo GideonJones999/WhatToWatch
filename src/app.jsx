@@ -76,7 +76,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home user={user} />} />
         <Route path="/group" element={<Group user={user} />} />
-        <Route path="/rate" element={<MovieRateSearch user={user} />} />
+        <Route
+          path="/rate"
+          element={<MovieRateSearch user={user} setUser={setUser} />}
+        />
         <Route path="/about" element={<About />} />
         <Route path="/recommend" element={<MovieRecInfo user={user} />} />
         <Route

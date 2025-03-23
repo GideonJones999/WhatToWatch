@@ -29,21 +29,41 @@ const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
       return;
     }
 
+    console.log("User Ratings before update:", user.userRatings);
+
     // Ensure userRatings is an array
     let updatedRatings = Array.isArray(user.userRatings)
       ? [...user.userRatings]
       : [];
 
-    // Check if the movie already has a rating
-    const existingIndex = updatedRatings.findIndex((r) => r.id === filmId);
-    if (existingIndex !== -1) {
-      updatedRatings[existingIndex].rating = selectedRating;
-    } else {
-      updatedRatings = [
-        { filmId, rating: selectedRating },
-        ...user.userRatings,
-      ];
+    console.log(movieData);
+
+    // Ensure filmId is a number for proper comparison
+    const numericFilmId = Number(filmId);
+    if (isNaN(numericFilmId)) {
+      console.error("Invalid filmId:", movieData.filmId);
+      return;
     }
+
+    console.log("Looking for filmId:", numericFilmId, "in", updatedRatings);
+
+    // Check if the movie already has a rating
+    const existingIndex = updatedRatings.findIndex(
+      (r) => Number(r.filmId) === numericFilmId
+    );
+    console.log("Index of the movie in userRatings:", existingIndex);
+
+    if (existingIndex !== -1) {
+      // Update existing rating
+      updatedRatings[existingIndex] = {
+        ...updatedRatings[existingIndex],
+        rating: selectedRating,
+      };
+    } else {
+      // Add new movie at the front while keeping existing updates
+      updatedRatings.unshift({ filmId: numericFilmId, rating: selectedRating });
+    }
+    console.log("Updated Ratings:", updatedRatings);
 
     // Create a new user object with updated ratings
     const updatedUser = {
@@ -56,6 +76,7 @@ const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
       console.log("User updated successfully:", response);
       const updatedUserData = await getCurrentUser();
       if (updatedUserData) {
+        console.log("Updated user fetched:", updatedUserData);
         onUserUpdate(updatedUserData); // Update the parent component with the new user data
       }
     } catch (error) {

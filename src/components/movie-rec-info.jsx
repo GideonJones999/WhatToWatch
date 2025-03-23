@@ -7,20 +7,29 @@ import Loading from "./loading/loading";
 const MovieRecInfo = () => {
   const [movieData, setMovieData] = useState(null);
   const [loading, setLoading] = useState(true); // Track loading state
+  const [userRating, setUserRating] = useState(""); // State to store the user's rating
 
   useEffect(() => {
+    console.log("getting movie data");
     const fetchMovieData = async () => {
       try {
         const data = await getRandMovieAPI();
-        setMovieData(data);
+        console.log("Fetched movie data:", data);
+
+        // Only update state if data is different
+        if (JSON.stringify(data) !== JSON.stringify(movieData)) {
+          setMovieData(data);
+        }
       } catch (error) {
         console.error("Error fetching movie data:", error);
       } finally {
+        console.log("Done Loading");
         setLoading(false);
       }
     };
 
     fetchMovieData();
+    console.log("done fetching");
   }, []); // Runs only once when the component mounts
 
   if (loading) {
@@ -34,7 +43,10 @@ const MovieRecInfo = () => {
   const { title, tagline, description, actors, poster, whereToWatch, trailer } =
     movieData;
 
-  console.log(movieData);
+  const handleRating = (rating) => {
+    setUserRating(rating); // Set the user rating state
+    console.log(`User rating: ${rating}`); // You can replace this with actual logic, like saving the rating or performing an action
+  };
 
   return (
     <main>
@@ -78,15 +90,21 @@ const MovieRecInfo = () => {
         <div className="rec-rating">
           <h3>Are you Interested?</h3>
           <a id="rating-no" className="button-link">
-            <button>No!</button>
+            <button onClick={() => handleRating("No!")}>No!</button>
           </a>
           <a id="rating-mid" className="button-link">
-            <button>Not Now...</button>
+            <button onClick={() => handleRating("Not Now...")}>
+              Not Now...
+            </button>
           </a>
           <a id="rating-yes" className="button-link">
-            <button>Absolutely!</button>
+            <button onClick={() => handleRating("Absolutely!")}>
+              Absolutely!
+            </button>
           </a>
         </div>
+
+        {userRating && <p>Your Rating: {userRating}</p>}
       </div>
     </main>
   );

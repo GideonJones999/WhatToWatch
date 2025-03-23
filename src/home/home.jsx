@@ -60,7 +60,7 @@ export default function Home() {
           );
           return (
             <LastWatchedMovie
-              id={movie.filmId}
+              filmId={movie.filmId}
               title={movie.title}
               tagline={movie.tagline}
               description={movie.description}

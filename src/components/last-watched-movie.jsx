@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import MovieInfo from "./movie-info";
 
 const LastWatchedMovie = ({
-  id,
+  filmId,
   title,
   tagline,
   description,
@@ -16,7 +16,15 @@ const LastWatchedMovie = ({
   const handleNav = () => {
     navigate("/rate", {
       state: {
-        movieData: { id, title, tagline, description, poster, actors, rating },
+        movieData: {
+          filmId,
+          title,
+          tagline,
+          description,
+          poster,
+          actors,
+          rating,
+        },
       },
     });
   };
@@ -24,7 +32,6 @@ const LastWatchedMovie = ({
   return (
     <div className="movie-last-watched">
       <MovieInfo
-        id={id}
         title={title}
         tagline={tagline}
         description={description}

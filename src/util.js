@@ -1,145 +1,7 @@
 import { tmdbAuth } from "../security";
+import { getCurrentUser } from "../service/userAPI";
 
 let serverAddress = "http://localhost:3000";
-
-export async function getUserDataAPI() {
-  try {
-    const response = await fetch("http://localhost:3000/api/user/me", {
-      method: "GET",
-      credentials: "include", // Include cookies in request
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
-    }
-
-    const userData = await response.json();
-    console.log("User Data:", userData);
-    return userData;
-  } catch (error) {
-    console.error("Failed to fetch user data:", error);
-  }
-}
-
-let tempUser = {
-  userName: "test",
-  email: "gideon.w.jones@gmail.com",
-  userMaxRating: "PG-13",
-  userRating: ["G", "PG", "PG-13"],
-  userServices: ["Disney+", "Netflix"],
-  userGenres: ["Action", "Comedy"],
-  userRatings: [],
-};
-
-export const getUserData = () => {
-  return {
-    userName: tempUser.userName,
-    email: tempUser.email,
-    userMaxRating: tempUser.userMaxRating,
-    userRating: tempUser.userRating,
-    userServices: tempUser.userServices,
-    userGenres: tempUser.userGenres,
-    userRatings: tempUser.userRatings,
-  };
-};
-
-export const setUserData = (name, rating, services, genres) => {
-  const userRatingPreference = [];
-  switch (rating) {
-    case "R":
-      userRatingPreference.push("R", "NR");
-    case "PG-13":
-      userRatingPreference.push("PG-13");
-    case "PG":
-      userRatingPreference.push("PG");
-    case "G":
-      userRatingPreference.push("G");
-      break;
-    default:
-      break;
-  }
-  tempUser.userName = name;
-  tempUser.userMaxRating = rating;
-  tempUser.userRating = userRatingPreference;
-  tempUser.userServices = services;
-  tempUser.userGenres = genres;
-};
-
-export const setUserDataAPI = async (name, rating, services, genres) => {
-  const userRatingPreference = [];
-  switch (rating) {
-    case "R":
-      userRatingPreference.push("R", "NR");
-    case "PG-13":
-      userRatingPreference.push("PG-13");
-    case "PG":
-      userRatingPreference.push("PG");
-    case "G":
-      userRatingPreference.push("G");
-      break;
-    default:
-      break;
-  }
-
-  try {
-    const response = await fetch(`${serverAddress}/api/user`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        userName: name,
-        userMaxRating: rating,
-        userRating: userRatingPreference,
-        userServices: services,
-        userGenres: genres,
-      }),
-    });
-
-    if (!response.ok) throw new Error("Failed to update user data");
-  } catch (error) {
-    console.error("Error updating user data:", error);
-  }
-};
-
-export const setUserRatingsAPI = async (movieID, rating) => {
-  try {
-    const response = await fetch(`${serverAddress}/api/user/ratings`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ movieID, rating }),
-    });
-
-    if (!response.ok) throw new Error("Failed to update movie rating");
-  } catch (error) {
-    console.error("Error updating movie rating:", error);
-  }
-};
-
-export const setUserRatings = (movieID, rating) => {
-  tempUser.userRatings[movieID] = rating;
-};
-
-export const fetchAuthentication = () => {
-  const url = "https://api.themoviedb.org/3/authentication";
-  const options = {
-    method: "GET",
-    headers: {
-      accept: "application/json",
-      Authorization: tmdbAuth(),
-    },
-  };
-
-  fetch(url, options)
-    .then((res) => res.json())
-    .then((json) => console.log(json))
-    .catch((err) => console.error(err));
-};
 
 export const getRandMovieAPI = async (page = 1) => {
   const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
@@ -159,20 +21,26 @@ export const getRandMovieAPI = async (page = 1) => {
     console.log(json);
 
     // Get user data
-    const userData = getUserData();
+    const userData = await getCurrentUser();
     let userRatingPreference = userData.userRating;
+    let userServices = userData.userServices;
 
     // Filter out movies based on certification and user ratings
     const filteredMovies = await Promise.all(
       json.results.map(async (movie) => {
         const movieCertification = await getFilmRating(movie.id);
         const userHasRated = userData.userRatings[movie.id];
+        const movieStreamingLocations = await getWhereToWatchTMDB(movie.id);
+        const availableProviders = movieStreamingLocations.map(
+          (provider) => provider.provider_name
+        );
 
         // Exclude movies that don't match user certification preference or have already been rated
         if (
           movieCertification &&
           userHasRated === undefined && // Check if movie hasn't been rated
-          userRatingPreference.includes(movieCertification) // Assuming preference is a string like "PG" or "R"
+          userRatingPreference.includes(movieCertification) && // Assuming preference is a string like "PG" or "R"
+          userServices.some((service) => availableProviders.includes(service))
         ) {
           return movie;
         }
@@ -439,7 +307,7 @@ export const getFilmData = async (filmId) => {
     const actors = castMembers || [];
     const description = jsonData.overview;
     const poster = `https://image.tmdb.org/t/p/original${jsonData.poster_path}`;
-    const userData = getUserData();
+    const userData = await getCurrentUser();
     const userRating = userData.userRatings[title] ?? 0;
 
     return {
@@ -505,7 +373,8 @@ export const getFilmIdFiltered = async (filmName, page = 1) => {
     const json = await res.json();
 
     // Get user data
-    const userData = getUserData();
+    const userData = await getCurrentUser();
+    console.log(userData);
     let userRatingPreference = userData.userRating;
     console.log("User Rating Preferences:", userRatingPreference);
 

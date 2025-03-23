@@ -63,6 +63,17 @@ export default function About() {
           Semester. It uses HTML, SCSS, React, WebSocket (eventually),
           JavaScript, AWS, and more!
         </p>
+        <p>
+          This website uses the{" "}
+          <a href="https://www.themoviedb.org/?language=en-US" target="_blank">
+            TMDB
+          </a>{" "}
+          api, as well as the{" "}
+          <a href="https://www.justwatch.com/us" target="_blank">
+            JustWatch
+          </a>{" "}
+          api.
+        </p>
       </div>
 
       <h1>Contact</h1>

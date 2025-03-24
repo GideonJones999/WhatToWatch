@@ -14,15 +14,22 @@ export default function Profile({ user, refreshUser }) {
   };
 
   const saveProfile = async () => {
+    const ratingLevels = ["G", "PG", "PG-13", "NR", "R"];
+    const maxRatingIndex = ratingLevels.indexOf(tempProfile.userMaxRating);
+
     const updatedUser = {
       ...profile,
       userName: tempProfile.userName,
       userMaxRating: tempProfile.userMaxRating,
       userServices: tempProfile.userServices,
       userGenres: tempProfile.userGenres,
+      userRating:
+        maxRatingIndex !== -1
+          ? ratingLevels.slice(0, maxRatingIndex + 1) // Update userRating
+          : profile.userRating,
     };
     try {
-      const response = await updateUser(updatedUser);
+      await updateUser(updatedUser);
       refreshUser();
     } catch (err) {
       console.error("Error updating user:", err);

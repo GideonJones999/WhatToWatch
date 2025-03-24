@@ -49,3 +49,7 @@ Added better page-responsive SCSS, mkaing the images bigger on smaller screens a
 ## React - 02/10/25
 
 Converted to React, also added functional contact menu on About page, and login. (The user is "admin" and the password is "password" until authentication is finished.)
+
+## Startup - 03/24/25
+
+Added API Implimentation for both the movies and the user. User can create account, log in, log out, change settings, rate films, and get recommended a popular film based on their certification preferences and streaming services. When this is done, the user can select whether or not they'd like to watch the film. Many Styling Changes.

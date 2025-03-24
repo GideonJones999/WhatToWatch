@@ -1,5 +1,5 @@
 import { tmdbAuth } from "../security";
-import { getCurrentUser } from "../service/userAPI";
+import { getCurrentUser } from "./userAPI";
 
 let serverAddress = "http://localhost:3000";
 

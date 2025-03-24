@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import LastWatchedMovie from "../components/last-watched-movie";
 import "./home.css";
 import { getFilmData } from "../util";
-import { getCurrentUser } from "../../service/userAPI";
+import { getCurrentUser } from "../userAPI";
 import Loading from "../components/loading/loading";
 
 export default function Home() {

@@ -1,7 +1,7 @@
-const apiURL = `http://localhost:3000/api`;
+// const apiURL = `http://localhost:3000/api`;
 
 export async function createUser(userData) {
-  const response = await fetch(`${apiURL}/auth/create`, {
+  const response = await fetch(`/api/auth/create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export async function createUser(userData) {
 //   .catch((error) => console.error("Error creating user:", error.message));
 
 export async function loginUser(email, password) {
-  const response = await fetch(`${apiURL}/auth/login`, {
+  const response = await fetch(`/api/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export async function loginUser(email, password) {
 //   .catch((error) => console.error(error));
 
 export async function getCurrentUser() {
-  const response = await fetch(`${apiURL}/user/me`, {
+  const response = await fetch(`/api/user/me`, {
     method: "GET",
     credentials: "include", // Ensures cookies are sent with the request
   });
@@ -73,7 +73,7 @@ export async function getCurrentUser() {
 //   .catch((error) => console.error(error));
 
 export async function updateUser(userData) {
-  const response = await fetch("http://localhost:3000/api/user/update", {
+  const response = await fetch("/api/user/update", {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -94,7 +94,7 @@ export async function updateUser(userData) {
 //   .catch((error) => console.error(error));
 
 export async function logoutUser() {
-  const response = await fetch("http://localhost:3000/api/auth", {
+  const response = await fetch("/api/auth", {
     method: "DELETE",
     credentials: "include", // Ensures cookies are included
   });

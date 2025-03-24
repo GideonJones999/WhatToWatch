@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./profile.css";
-import { updateUser, getCurrentUser } from "../../service/userAPI";
+import { updateUser, getCurrentUser } from "../userAPI";
 import Loading from "../components/loading/loading";
 
 export default function Profile({ user, refreshUser }) {

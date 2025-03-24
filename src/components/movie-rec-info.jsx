@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieInfo from "./movie-info";
 import { getRandMovieAPI } from "../util";
-import { updateUser, getCurrentUser } from "../../service/userAPI";
+import { updateUser, getCurrentUser } from "../userAPI";
 import "../movie-rec/movie-rec.css";
 import Loading from "./loading/loading";
 

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import MovieInfo from "./movie-info";
 import { useNavigate } from "react-router-dom";
-import { updateUser, getCurrentUser } from "../../service/userAPI";
+import { updateUser, getCurrentUser } from "../userAPI";
 import "../rate/rate.css";
 
 const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {

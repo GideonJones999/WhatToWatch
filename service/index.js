@@ -1,22 +1,13 @@
 const express = require("express");
-const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
 const uuid = require("uuid");
 const bcrypt = require("bcryptjs");
+const path = require("path");
 
-const corsOptions = {
-  methods: "GET,POST,PUT,DELETE",
-  credentials: true,
-  origin:
-    process.env.NODE_ENV === "production"
-      ? "https://moviepick.click"
-      : "http://localhost:5173", // Use your production domain
-};
-
-app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
+app.use(express.static(path.join(__dirname, "public")));
 
 const users = []; // In-memory user store
 
@@ -114,6 +105,11 @@ app.put("/api/user/update", async (req, res) => {
   res.send(getUserResponse(user));
 });
 
+// Return the application's default page if the path is unknown
+app.use((_req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
+});
+
 /** Create a New User */
 async function createUser(
   email,
@@ -164,5 +160,5 @@ function clearAuthCookie(res, user) {
 }
 
 /** Start the Server */
-const port = 3000;
+const port = process.argv.length > 2 ? process.argv[2] : 3000;
 app.listen(port, () => console.log(`Listening on port ${port}`));

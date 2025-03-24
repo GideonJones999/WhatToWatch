@@ -1,10 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  createUser,
-  loginUser,
-  getCurrentUser,
-  logoutUser,
-} from "../../service/userAPI";
+import { createUser, loginUser, getCurrentUser, logoutUser } from "../userAPI";
 import Profile from "../profile/profile";
 import "./login.css";
 

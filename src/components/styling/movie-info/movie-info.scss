@@ -1,36 +1,5 @@
 @import "../utility.scss";
 
-div.rate-container {
-  div.search-container {
-    form {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      input,
-      select {
-        width: 15em;
-        font-size: 1.25em;
-        // border-radius: 0.5em;
-        border: transparent;
-        border-bottom: 2px black solid;
-        margin: 0.25em;
-        &:active,
-        &:focus {
-          border: transparent;
-          border-bottom: 2px black solid;
-          outline: none;
-        }
-        &[type="checkbox"] {
-          width: auto;
-          accent-color: $buttonColor;
-        }
-      }
-    }
-  }
-}
-
 div.movie-info {
   display: flex;
   padding: 1em;
@@ -123,53 +92,5 @@ div.movie-info {
         }
       }
     }
-  }
-}
-
-.rate {
-  float: left;
-  height: 46px;
-  padding: 0 10px;
-  &:not(:checked) > input {
-    position: absolute;
-    top: -9999px;
-  }
-  &:not(:checked) > label {
-    float: right;
-    width: 1em;
-    overflow: hidden;
-    white-space: nowrap;
-    cursor: pointer;
-    font-size: 30px;
-    color: #ccc;
-    &:before {
-      content: "★ ";
-    }
-    &:hover,
-    &:hover ~ label {
-      color: gold;
-    }
-  }
-  & > input:checked ~ label {
-    color: gold;
-  }
-  & > input:checked + label:hover,
-  & > input:checked + label:hover ~ label,
-  & > input:checked ~ label:hover,
-  & > input:checked ~ label:hover ~ label,
-  & > label:hover ~ input:checked ~ label {
-    color: gold;
-  }
-}
-
-.movie-rate-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  #movie-rating-submit {
-    width: 5em;
-    height: 2em;
   }
 }

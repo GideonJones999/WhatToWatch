@@ -1,32 +1,3 @@
-@charset "UTF-8";
-div.rate-container div.search-container form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-}
-div.rate-container div.search-container form input,
-div.rate-container div.search-container form select {
-  width: 15em;
-  font-size: 1.25em;
-  border: transparent;
-  border-bottom: 2px black solid;
-  margin: 0.25em;
-}
-div.rate-container div.search-container form input:active, div.rate-container div.search-container form input:focus,
-div.rate-container div.search-container form select:active,
-div.rate-container div.search-container form select:focus {
-  border: transparent;
-  border-bottom: 2px black solid;
-  outline: none;
-}
-div.rate-container div.search-container form input[type=checkbox],
-div.rate-container div.search-container form select[type=checkbox] {
-  width: auto;
-  accent-color: teal;
-}
-
 div.movie-info {
   display: flex;
   padding: 1em;
@@ -120,47 +91,4 @@ div.movie-info div.last-watched-info h4.where-to-watch a:hover {
   color: gold;
   letter-spacing: 0.05em;
   transition: ease-in-out 0.25s;
-}
-
-.rate {
-  float: left;
-  height: 46px;
-  padding: 0 10px;
-}
-.rate:not(:checked) > input {
-  position: absolute;
-  top: -9999px;
-}
-.rate:not(:checked) > label {
-  float: right;
-  width: 1em;
-  overflow: hidden;
-  white-space: nowrap;
-  cursor: pointer;
-  font-size: 30px;
-  color: #ccc;
-}
-.rate:not(:checked) > label:before {
-  content: "★ ";
-}
-.rate:not(:checked) > label:hover, .rate:not(:checked) > label:hover ~ label {
-  color: gold;
-}
-.rate > input:checked ~ label {
-  color: gold;
-}
-.rate > input:checked + label:hover, .rate > input:checked + label:hover ~ label, .rate > input:checked ~ label:hover, .rate > input:checked ~ label:hover ~ label, .rate > label:hover ~ input:checked ~ label {
-  color: gold;
-}
-
-.movie-rate-info {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-}
-.movie-rate-info #movie-rating-submit {
-  width: 5em;
-  height: 2em;
-}/*# sourceMappingURL=rate.css.map */
+}/*# sourceMappingURL=movie-info.css.map */

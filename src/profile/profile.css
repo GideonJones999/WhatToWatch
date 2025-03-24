@@ -31,9 +31,6 @@ div.profile-container button.button-link {
     width: 55vw;
   }
 }
-div.profile-container button.button-link#edit-profile {
-  margin-left: -2.5em;
-}
 div.profile-container button.button-link#logout-button {
   background-color: red;
 }

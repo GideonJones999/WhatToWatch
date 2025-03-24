@@ -23,7 +23,6 @@ export default function Profile({ user, refreshUser }) {
     };
     try {
       const response = await updateUser(updatedUser);
-      console.log("User Updated Successfully:", response);
       refreshUser();
     } catch (err) {
       console.error("Error updating user:", err);
@@ -32,12 +31,18 @@ export default function Profile({ user, refreshUser }) {
   };
 
   useEffect(() => {
-    console.log(profile);
     if (!user) {
-      console.log("No user, refreshing");
-      refreshUser(); // Fetch user data when the Profile page loads
+      const fetchUser = async () => {
+        try {
+          await refreshUser(); // Fetch user data when the Profile page loads
+        } catch (err) {
+          console.error("Error refreshing user:", err);
+        }
+      };
+
+      fetchUser();
     }
-  }, []);
+  }, [user, refreshUser]); // Add `user` and `refreshUser` as dependencies
 
   const handleServiceChange = (e, service) => {
     const updatedServices = e.target.checked

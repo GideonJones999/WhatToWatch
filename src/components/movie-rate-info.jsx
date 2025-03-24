@@ -36,14 +36,10 @@ const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
       return;
     }
 
-    console.log("User Ratings before update:", user.userRatings);
-
     // Ensure userRatings is an array
     let updatedRatings = Array.isArray(user.userRatings)
       ? [...user.userRatings]
       : [];
-
-    console.log(movieData);
 
     // Ensure filmId is a number for proper comparison
     const numericFilmId = Number(filmId);
@@ -52,13 +48,10 @@ const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
       return;
     }
 
-    console.log("Looking for filmId:", numericFilmId, "in", updatedRatings);
-
     // Check if the movie already has a rating
     const existingIndex = updatedRatings.findIndex(
       (r) => Number(r.filmId) === numericFilmId
     );
-    console.log("Index of the movie in userRatings:", existingIndex);
 
     if (existingIndex !== -1) {
       // Update existing rating
@@ -70,7 +63,6 @@ const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
       // Add new movie at the front while keeping existing updates
       updatedRatings.unshift({ filmId: numericFilmId, rating: selectedRating });
     }
-    console.log("Updated Ratings:", updatedRatings);
 
     // Create a new user object with updated ratings
     const updatedUser = {
@@ -80,10 +72,8 @@ const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
 
     try {
       const response = await updateUser(updatedUser);
-      console.log("User updated successfully:", response);
       const updatedUserData = await getCurrentUser();
       if (updatedUserData) {
-        console.log("Updated user fetched:", updatedUserData);
         onUserUpdate(updatedUserData); // Update the parent component with the new user data
       }
     } catch (error) {
@@ -98,69 +88,67 @@ const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
   };
 
   return (
-    <main>
-      <div className="movie-rate-info">
-        <MovieInfo
-          title={title}
-          tagline={tagline}
-          description={description}
-          poster={poster}
-          actors={actors}
-        />
+    <div className="movie-rate-info">
+      <MovieInfo
+        title={title}
+        tagline={tagline}
+        description={description}
+        poster={poster}
+        actors={actors}
+      />
 
-        {trailer && (
-          <>
-            <h4 className="movie-trailer-tease">Watch the Trailer Here:</h4>
-            <iframe
-              width="336"
-              height="189"
-              src={`https://www.youtube.com/embed/${trailer.key}`}
-              title="YouTube video player"
-              frameBorder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowFullScreen
-              className="movie-trailer"
-            ></iframe>
-          </>
-        )}
+      {trailer && (
+        <>
+          <h4 className="movie-trailer-tease">Watch the Trailer Here:</h4>
+          <iframe
+            width="336"
+            height="189"
+            src={`https://www.youtube.com/embed/${trailer.key}`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="movie-trailer"
+          ></iframe>
+        </>
+      )}
 
-        <div className="ratings">
-          <h3>Your Rating:</h3>
-          <div className="rate">
-            {[...Array(10)].map((_, i) => {
-              const starValue = 10 - i;
-              return (
-                <React.Fragment key={starValue}>
-                  <input
-                    type="radio"
-                    id={`star${starValue}`}
-                    name="rate"
-                    value={starValue}
-                    checked={selectedRating === starValue}
-                    onChange={handleRatingChange}
-                  />
-                  <label
-                    htmlFor={`star${starValue}`}
-                    title={`${starValue} stars`}
-                  >
-                    {starValue} stars
-                  </label>
-                </React.Fragment>
-              );
-            })}
-          </div>
+      <div className="ratings">
+        <h3>Your Rating:</h3>
+        <div className="rate">
+          {[...Array(10)].map((_, i) => {
+            const starValue = 10 - i;
+            return (
+              <React.Fragment key={starValue}>
+                <input
+                  type="radio"
+                  id={`star${starValue}`}
+                  name="rate"
+                  value={starValue}
+                  checked={selectedRating === starValue}
+                  onChange={handleRatingChange}
+                />
+                <label
+                  htmlFor={`star${starValue}`}
+                  title={`${starValue} stars`}
+                >
+                  {starValue} stars
+                </label>
+              </React.Fragment>
+            );
+          })}
         </div>
-
-        <button
-          // type="submit"
-          className="button-link"
-          id="movie-rating-submit"
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
       </div>
-    </main>
+
+      <button
+        // type="submit"
+        className="button-link"
+        id="movie-rating-submit"
+        onClick={handleSubmit}
+      >
+        Submit
+      </button>
+    </div>
   );
 };
 

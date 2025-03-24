@@ -16,8 +16,6 @@ import Loading from "./components/loading/loading";
 export default function App() {
   const [user, setUser] = useState(() => {
     const userData = JSON.parse(localStorage.getItem("user"));
-    console.log(userData);
-    console.log("Global User Updated");
     return userData || null;
   });
 

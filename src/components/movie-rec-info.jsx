@@ -13,7 +13,6 @@ const MovieRecInfo = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Getting movie data");
     const fetchMovieData = async () => {
       try {
         const data = await getRandMovieAPI();
@@ -63,8 +62,6 @@ const MovieRecInfo = () => {
       return;
     }
 
-    console.log(rating);
-
     if (rating === "Absolutely!") {
       navigate("/rate", {
         state: {
@@ -83,10 +80,7 @@ const MovieRecInfo = () => {
     } else {
       let updatedNotInterested = user.userNotInterested;
       updatedNotInterested.push(filmId);
-      console.log(updatedNotInterested);
-
       const updatedUser = { ...user, userNotInterested: updatedNotInterested };
-
       try {
         await updateUser(updatedUser);
         const updatedUserData = await getCurrentUser();

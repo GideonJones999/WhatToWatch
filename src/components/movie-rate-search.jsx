@@ -58,31 +58,37 @@ const MovieRateSearch = ({ user, setUser }) => {
 
   return (
     <main>
-      <h2>Search for a Movie to Rate</h2>
-      <form onSubmit={handleSearch} className="search-form">
-        <input
-          type="text"
-          placeholder="Enter movie title..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          required
-        />
-        <button type="submit">Search</button>
-      </form>
+      <div className="rate-container">
+        <div className="search-container">
+          <h2>Search for a Movie to Rate</h2>
+          <form onSubmit={handleSearch} className="search-form">
+            <input
+              type="text"
+              placeholder="Enter movie title..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              required
+            />
+            <button type="submit" className="button-link">
+              Search
+            </button>
+          </form>
+        </div>
 
-      {loading && <Loading />}
-      {error && <p className="error-message">{error}</p>}
+        {loading && <Loading />}
+        {error && <p className="error-message">{error}</p>}
 
-      {/* Conditional rendering for movieData */}
-      {!movieData ? (
-        <p>No movie selected. Search for a movie to rate.</p>
-      ) : (
-        <MovieRateInfo
-          movieData={movieData}
-          user={user}
-          onUserUpdate={handleUserUpdate}
-        />
-      )}
+        {/* Conditional rendering for movieData */}
+        {!movieData ? (
+          <p>No movie selected. Search for a movie to rate.</p>
+        ) : (
+          <MovieRateInfo
+            movieData={movieData}
+            user={user}
+            onUserUpdate={handleUserUpdate}
+          />
+        )}
+      </div>
     </main>
   );
 };

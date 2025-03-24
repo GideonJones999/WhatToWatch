@@ -1,4 +1,5 @@
 import React from "react";
+import "./styling/movie-info/movie-info.css";
 
 const MovieInfo = ({ title, tagline, description, poster, actors = [] }) => {
   return (

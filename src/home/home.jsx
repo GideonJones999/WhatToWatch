@@ -31,9 +31,13 @@ export default function Home() {
         setLoading(false);
       }
     };
-
-    fetchUserAndMovies();
-  }, []); // Empty dependency array ensures it runs on initial render only
+    if (!user) {
+      console.log("Fetching User");
+      fetchUserAndMovies();
+    } else {
+      setLoading(false);
+    }
+  }, [user]); // Empty dependency array ensures it runs on initial render only
 
   if (loading) {
     return <Loading />;

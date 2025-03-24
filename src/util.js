@@ -5,7 +5,6 @@ let serverAddress = "http://localhost:3000";
 
 export const getRandMovieAPI = async (page = 1) => {
   const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
-  console.log("Page: ", page);
   const options = {
     method: "GET",
     headers: {
@@ -18,7 +17,6 @@ export const getRandMovieAPI = async (page = 1) => {
     const res = await fetch(url, options);
     if (!res.ok) throw new Error(`Failed to fetch data: ${res.status}`);
     const json = await res.json();
-    console.log(json);
 
     // Get user data
     const userData = await getCurrentUser();
@@ -85,8 +83,6 @@ export const getWhereToWatchTMDB = async (filmId) => {
 
     // Return the US results from the response
     const results = json?.results["US"] || [];
-    // console.log(json.results);
-    // console.log(results);
     const offers = [
       ...(results.buy || []),
       ...(results.flatrate || []),
@@ -98,7 +94,6 @@ export const getWhereToWatchTMDB = async (filmId) => {
       if (!uniqueProviders.has(offer.provider_id)) {
         let provider_url;
         let filmName = await getFilmName(filmId);
-        console.log(offer);
         switch (offer.provider_id) {
           case 10:
             provider_url = `https://www.amazon.com/s?k=${filmName}&i=movies-tv&rh=n%3A2625373011%2Cp_n_format_browse-bin%3A2650306011&dc`;
@@ -149,6 +144,10 @@ export const getWhereToWatchTMDB = async (filmId) => {
           case 337:
             provider_url = "https://disneyplus.com/movies/";
             break;
+          case 8:
+          case 1796:
+            provider_url = "https://www.netflix.com/";
+            break;
           default:
             provider_url = "https://google.com";
             break;
@@ -162,8 +161,6 @@ export const getWhereToWatchTMDB = async (filmId) => {
 
     // Convert Map values to array
     const providers = Array.from(uniqueProviders.values());
-
-    // console.log(providers);
     return providers;
   } catch (err) {
     console.error("Error fetching watch providers:", err);
@@ -247,13 +244,11 @@ export const getFilmActors = async (filmId) => {
   try {
     const res = await fetch(url, options);
     const json = await res.json();
-    // const cast = json.cast;
     const castMembers = [
       json.cast[0].name,
       json.cast[1].name,
       json.cast[2].name,
     ];
-    // console.log(castMembers);
     return castMembers;
   } catch (err) {
     console.error(err);
@@ -302,7 +297,6 @@ export const getFilmData = async (filmId) => {
     if (!castMembers) {
       console.error("Failed to fetch actors for movie", filmId);
     }
-    // console.log(jsonData, rating, whereToWatch);
 
     const trailerURL = await getTrailer(filmId);
     if (!trailerURL) {
@@ -381,9 +375,7 @@ export const getFilmIdFiltered = async (filmName, page = 1) => {
 
     // Get user data
     const userData = await getCurrentUser();
-    console.log(userData);
     let userRatingPreference = userData.userRating;
-    console.log("User Rating Preferences:", userRatingPreference);
 
     // Fetch movie ratings asynchronously
     const moviesWithRatings = await Promise.all(
@@ -401,9 +393,6 @@ export const getFilmIdFiltered = async (filmName, page = 1) => {
     );
 
     if (validMovies.length === 0 && page < json.total_pages) {
-      console.log(
-        `No valid movies found on page ${page}, fetching next page...`
-      );
       return await getFilmIdFiltered(filmName, page + 1);
     }
 

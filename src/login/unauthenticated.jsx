@@ -36,7 +36,6 @@ export function Unauthenticated(props) {
     });
     if (response?.status === 200) {
       localStorage.setItem("userName", userName);
-      console.log(userName);
       props.onLogin(userName);
       navigate("/");
     } else if (response?.status === 404) {

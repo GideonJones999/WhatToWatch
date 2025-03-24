@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import MovieInfo from "./movie-info";
+import { useNavigate } from "react-router-dom";
 import { updateUser, getCurrentUser } from "../../service/userAPI";
 import "../rate/rate.css";
 
 const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
   const [selectedRating, setSelectedRating] = useState(movieData?.rating || 0);
+  const navigate = useNavigate();
 
   if (!movieData) {
     return (
@@ -18,6 +20,11 @@ const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
     movieData;
 
   const handleRatingChange = (event) => {
+    window.scrollTo({
+      top: 9000,
+    });
+    event.preventDefault();
+    event.stopPropagation();
     setSelectedRating(parseInt(event.target.value));
   };
 
@@ -81,7 +88,13 @@ const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
       }
     } catch (error) {
       console.error("Error updating user:", error);
+      return;
     }
+    navigate("/");
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   return (
@@ -139,7 +152,7 @@ const MovieRateInfo = ({ user, movieData, onUserUpdate }) => {
         </div>
 
         <button
-          type="submit"
+          // type="submit"
           className="button-link"
           id="movie-rating-submit"
           onClick={handleSubmit}

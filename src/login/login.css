@@ -7,11 +7,34 @@ main div.login-container {
 }
 main div.login-container div.login-enter {
   margin: 1.5em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
 }
 main div.login-container div.login-enter label {
   padding-right: 1em;
 }
-main div.login-container button.button-link {
+main div.login-container div.login-enter form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+main div.login-container div.login-enter form input {
+  width: 15em;
+  font-size: 1.25em;
+  border: transparent;
+  border-bottom: 2px black solid;
+  margin: 0.25em;
+}
+main div.login-container div.login-enter form input:active, main div.login-container div.login-enter form input:focus {
+  border: transparent;
+  border-bottom: 2px black solid;
+  outline: none;
+}
+main div.login-container div.login-enter form button.button-link {
   margin: 0.5em;
   background-color: teal;
   border: none;
@@ -23,7 +46,7 @@ main div.login-container button.button-link {
   width: 5em;
   height: 1.5em;
 }
-main div.login-container button.button-link:hover {
+main div.login-container div.login-enter form button.button-link:hover {
   transition: 0.25s ease-in-out;
   background-color: gold;
   letter-spacing: 0.05em;

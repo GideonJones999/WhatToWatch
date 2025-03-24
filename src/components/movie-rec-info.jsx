@@ -111,16 +111,18 @@ const MovieRecInfo = () => {
           actors={actors}
         />
 
-        <h4 className="where-to-watch">You can watch this on:</h4>
-        <ul>
-          {whereToWatch.map((offer) => (
-            <li key={offer.provider_name}>
-              <a href={offer.url} target="_blank" rel="noopener noreferrer">
-                {offer.provider_name}
-              </a>
-            </li>
-          ))}
-        </ul>
+        <div className="watch-container">
+          <h4 className="where-to-watch">You can watch this on:</h4>
+          <ul>
+            {whereToWatch.map((offer) => (
+              <li key={offer.provider_name}>
+                <a href={offer.url} target="_blank" rel="noopener noreferrer">
+                  {offer.provider_name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
 
         {trailer && (
           <h4 className="movie-trailer-tease">Watch the Trailer Here:</h4>

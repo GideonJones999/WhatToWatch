@@ -47,6 +47,29 @@ div.movie-last-watched div.last-watched-info input[type=submit]:hover {
   letter-spacing: 0.05em;
 }
 
+div.watch-container {
+  text-align: center;
+}
+div.watch-container ul {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+div.watch-container ul li a {
+  color: teal;
+  text-decoration: none;
+  cursor: pointer;
+  transition: ease-in-out 0.5s;
+}
+div.watch-container ul li a:hover {
+  transition: ease-in-out 0.5s;
+  letter-spacing: 0.05em;
+  color: gold;
+}
+
 iframe.movie-trailer {
   align-self: center;
 }

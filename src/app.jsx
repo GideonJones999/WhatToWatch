@@ -9,7 +9,7 @@ import Footer from "./footer/footer";
 import "./index.css";
 import MovieRecInfo from "./components/movie-rec-info";
 import MovieRateSearch from "./components/movie-rate-search";
-import TestLogin from "./testLogin";
+import Login from "./login/login.jsx";
 import { getCurrentUser } from "../service/userAPI";
 import Loading from "./components/loading/loading";
 
@@ -85,7 +85,7 @@ export default function App() {
         <Route
           path="/profile"
           element={
-            <TestLogin
+            <Login
               user={user}
               onAuthChange={handleAuthChange}
               onLogout={() => handleAuthChange(null, AuthState.Unauthenticated)}

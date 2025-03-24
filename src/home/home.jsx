@@ -70,6 +70,14 @@ export default function Home() {
             />
           );
         })}
+        {userMovies.length === 0 && (
+          <>
+            <p>Let's Record some of your Favorite Movies!</p>{" "}
+            <NavLink className="button-link" to="/rate">
+              <button id="home-to-rating">What Do I Like?</button>
+            </NavLink>
+          </>
+        )}
       </div>
     </main>
   );

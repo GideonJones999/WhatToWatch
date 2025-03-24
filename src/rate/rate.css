@@ -24,9 +24,11 @@ div.movie-info img.last-watched-poster {
 }
 div.movie-info div.last-watched-info {
   max-width: 20em;
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  justify-items: center;
+  text-align: center;
 }
 div.movie-info div.last-watched-info input[type=submit] {
   display: inline-flex;
@@ -37,7 +39,6 @@ div.movie-info div.last-watched-info input[type=submit] {
   font-size: medium;
   margin: 1em 0.25em;
   align-items: center;
-  align-self: center;
   background-color: teal;
   color: white;
   transition: ease-in-out 0.25s;
@@ -49,6 +50,9 @@ div.movie-info div.last-watched-info input[type=submit]:hover {
 }
 div.movie-info div.last-watched-info iframe.movie-trailer {
   align-self: center;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
 }
 @media (max-width: 850px) {
   div.movie-info div.last-watched-info iframe.movie-trailer {
@@ -62,7 +66,6 @@ div.movie-info div.last-watched-info div.rec-rating {
   display: flex;
   flex-direction: column;
   justify-content: center;
-  justify-items: center;
   align-items: center;
 }
 div.movie-info div.last-watched-info div.rec-rating a button {

@@ -40,7 +40,9 @@ export const getRandMovieAPI = async (page = 1) => {
           movieCertification &&
           userHasRated === undefined && // Check if movie hasn't been rated
           userRatingPreference.includes(movieCertification) && // Assuming preference is a string like "PG" or "R"
-          userServices.some((service) => availableProviders.includes(service)) &&
+          userServices.some((service) =>
+            availableProviders.includes(service)
+          ) &&
           !userData.userNotInterested.includes(movie.id)
         ) {
           return movie;
@@ -96,6 +98,7 @@ export const getWhereToWatchTMDB = async (filmId) => {
       if (!uniqueProviders.has(offer.provider_id)) {
         let provider_url;
         let filmName = await getFilmName(filmId);
+        console.log(offer);
         switch (offer.provider_id) {
           case 10:
             provider_url = `https://www.amazon.com/s?k=${filmName}&i=movies-tv&rh=n%3A2625373011%2Cp_n_format_browse-bin%3A2650306011&dc`;
@@ -142,6 +145,9 @@ export const getWhereToWatchTMDB = async (filmId) => {
             break;
           case 34:
             provider_url = "https://mgmplus.com";
+            break;
+          case 337:
+            provider_url = "https://disneyplus.com/movies/";
             break;
           default:
             provider_url = "https://google.com";

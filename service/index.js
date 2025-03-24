@@ -5,14 +5,16 @@ const cookieParser = require("cookie-parser");
 const uuid = require("uuid");
 const bcrypt = require("bcryptjs");
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: "GET,POST,PUT,DELETE",
-    credentials: true,
-  })
-);
+const corsOptions = {
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true,
+  origin:
+    process.env.NODE_ENV === "production"
+      ? "https://moviepick.click"
+      : "http://localhost:5173", // Use your production domain
+};
 
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -59,7 +61,7 @@ app.post("/api/auth/create", async (req, res) => {
     userServices,
     userGenres,
     userRatings,
-    userNotInterested,
+    userNotInterested
   );
   setAuthCookie(res, user.token);
 
@@ -122,7 +124,7 @@ async function createUser(
   userServices = ["Netflix"],
   userGenres = ["Action", "Drama"],
   userRatings = [],
-  userNotInterested = [],
+  userNotInterested = []
 ) {
   const passwordHash = await bcrypt.hash(password, 10);
   const user = {
@@ -149,7 +151,7 @@ async function getUser(field, value) {
 /** Set Authentication Cookie */
 function setAuthCookie(res, token) {
   res.cookie("token", token, {
-    secure: true,
+    secure: process.env.NODE_ENV === "production", // Only secure cookies in production
     httpOnly: true,
     sameSite: "strict",
   });

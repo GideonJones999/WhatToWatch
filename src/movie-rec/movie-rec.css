@@ -66,22 +66,22 @@ div.rec-rating {
   justify-items: center;
   align-items: center;
 }
-div.rec-rating a button {
+div.rec-rating button {
   width: 15em;
   height: 2.5em;
 }
 @media (max-width: 850px) {
-  div.rec-rating a button {
+  div.rec-rating button {
     width: 55vw;
   }
 }
-div.rec-rating a#rating-no button {
+div.rec-rating button#rating-no {
   background-color: red;
 }
-div.rec-rating a#rating-mid button {
+div.rec-rating button#rating-mid {
   background-color: black;
 }
-div.rec-rating a:hover button {
+div.rec-rating button:hover {
   transition: 0.25s ease-in-out;
   letter-spacing: 0.05em;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.23), 0 10px 40px rgba(0, 0, 0, 0.19);

@@ -58,31 +58,23 @@ div.rec-rating {
   justify-content: center;
   justify-items: center;
   align-items: center;
-  a {
-    button {
-      width: 15em;
-      height: 2.5em;
-      @media (max-width: 850px) {
-        width: 55vw;
-      }
+  button {
+    width: 15em;
+    height: 2.5em;
+    @media (max-width: 850px) {
+      width: 55vw;
     }
     &#rating-no {
-      button {
-        background-color: red;
-      }
+      background-color: red;
     }
     &#rating-mid {
-      button {
-        background-color: black;
-      }
+      background-color: black;
     }
     &:hover {
-      button {
-        transition: 0.25s ease-in-out;
-        letter-spacing: 0.05em;
-        box-shadow: bottom-shadow(3), top-shadow(3);
-        transform: scale(1.1);
-      }
+      transition: 0.25s ease-in-out;
+      letter-spacing: 0.05em;
+      box-shadow: bottom-shadow(3), top-shadow(3);
+      transform: scale(1.1);
     }
   }
 }

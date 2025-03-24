@@ -21,6 +21,7 @@ export default function TestLogin({ onAuthChange, userPassed }) {
     userRating: ["G", "PG", "PG-13"],
     userServices: ["Netflix"],
     userGenres: ["Action"],
+    userNotIntereted: [],
   });
 
   const [loginData, setLoginData] = useState({
@@ -43,6 +44,7 @@ export default function TestLogin({ onAuthChange, userPassed }) {
 
   // API Calls
   const handleCreateUser = async (e) => {
+    console.log("\n\nCreating User:");
     e.preventDefault();
     try {
       const createdUser = await createUser(registerData);
@@ -55,6 +57,7 @@ export default function TestLogin({ onAuthChange, userPassed }) {
   };
 
   const handleLogin = async (e) => {
+    console.log("\n\nLogging in User:");
     e.preventDefault();
     try {
       const loggedInUser = await loginUser(loginData.email, loginData.password);
@@ -68,6 +71,7 @@ export default function TestLogin({ onAuthChange, userPassed }) {
   };
 
   const handleGetCurrentUser = async () => {
+    console.log("\n\nGetting User:");
     try {
       const currentUser = await getCurrentUser();
       setUser(currentUser);
@@ -80,6 +84,7 @@ export default function TestLogin({ onAuthChange, userPassed }) {
   };
 
   const handleLogout = async () => {
+    console.log("\n\nLogging out User:");
     try {
       await logoutUser();
       setUser(null);

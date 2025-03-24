@@ -28,6 +28,7 @@ function getUserResponse(user) {
     userServices: user.userServices,
     userGenres: user.userGenres,
     userRatings: user.userRatings,
+    userNotInterested: user.userNotInterested,
   };
 }
 
@@ -42,6 +43,7 @@ app.post("/api/auth/create", async (req, res) => {
     userServices,
     userGenres,
     userRatings,
+    userNotInterested,
   } = req.body;
 
   if (await getUser("email", email)) {
@@ -56,7 +58,8 @@ app.post("/api/auth/create", async (req, res) => {
     userRating,
     userServices,
     userGenres,
-    userRatings
+    userRatings,
+    userNotInterested,
   );
   setAuthCookie(res, user.token);
 
@@ -118,7 +121,8 @@ async function createUser(
   userRating = ["G", "PG", "PG-13"],
   userServices = ["Netflix"],
   userGenres = ["Action", "Drama"],
-  userRatings = []
+  userRatings = [],
+  userNotInterested = [],
 ) {
   const passwordHash = await bcrypt.hash(password, 10);
   const user = {
@@ -130,6 +134,7 @@ async function createUser(
     userServices,
     userGenres,
     userRatings,
+    userNotInterested,
     token: uuid.v4(),
   };
   users.push(user);

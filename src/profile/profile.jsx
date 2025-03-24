@@ -39,7 +39,7 @@ export default function Profile({ user, refreshUser }) {
     if (!user) {
       refreshUser(); // Fetch user data when the Profile page loads
     }
-  }, [user, refreshUser]);
+  }, []);
 
   if (!user) return <Loading />;
 

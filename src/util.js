@@ -40,7 +40,8 @@ export const getRandMovieAPI = async (page = 1) => {
           movieCertification &&
           userHasRated === undefined && // Check if movie hasn't been rated
           userRatingPreference.includes(movieCertification) && // Assuming preference is a string like "PG" or "R"
-          userServices.some((service) => availableProviders.includes(service))
+          userServices.some((service) => availableProviders.includes(service)) &&
+          !userData.userNotInterested.includes(movie.id)
         ) {
           return movie;
         }

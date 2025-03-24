@@ -27,6 +27,7 @@ export async function createUser(userData) {
 //   userServices: ["Netflix", "Hulu"],
 //   userGenres: ["Action", "Comedy"],
 //   userRatings: {},
+//   userFilms
 // };
 
 // createUser(newUser)

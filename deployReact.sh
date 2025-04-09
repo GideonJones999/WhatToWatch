@@ -27,7 +27,7 @@ cp service/*.json build
 
 # Step 2
 printf "\n----> Clearing out previous distribution on the target\n"
-ssh -i "$key" ubuntu@$hostname << ENDSSH
+ssh -v -i "$key" ubuntu@$hostname << ENDSSH
 rm -rf services/${service}
 mkdir -p services/${service}
 ENDSSH
@@ -38,7 +38,7 @@ scp -r -i "$key" build/* ubuntu@$hostname:services/$service
 
 # Step 4
 printf "\n----> Deploy the service on the target\n"
-ssh -i "$key" ubuntu@$hostname << ENDSSH
+ssh -t -v -i "$key" ubuntu@$hostname << ENDSSH
 bash -i
 cd services/${service}
 npm install

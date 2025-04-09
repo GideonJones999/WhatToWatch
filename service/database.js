@@ -1,6 +1,5 @@
 const { MongoClient } = require("mongodb");
 const config = require("./dbConfig.json");
-const { getCurrentUser } = require("@aws-amplify/auth");
 
 const apiURL = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}/?retryWrites=true&w=majority`;
 const client = new MongoClient(apiURL);

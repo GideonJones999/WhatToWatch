@@ -25,7 +25,9 @@ export const getRandMovieAPI = async (page = 1) => {
     const filteredMovies = await Promise.all(
       json.results.map(async (movie) => {
         const movieCertification = await getFilmRating(movie.id);
-        const userHasRated = userData.userRatings[movie.id];
+        const userHasRated = userData.userRatings.find(
+          (rating) => rating.filmId === movie.id
+        );
         const movieStreamingLocations = await getWhereToWatchTMDB(movie.id);
         const availableProviders = movieStreamingLocations.map(
           (provider) => provider.provider_name

@@ -27,6 +27,7 @@ export default function App() {
 
   useEffect(() => {
     const handleGetCurrentUser = async () => {
+      console.log("getting current user - app");
       try {
         const currentUser = await getCurrentUser();
         if (currentUser) {
@@ -44,12 +45,12 @@ export default function App() {
       }
     };
 
-    if (user) {
+    if (!user) {
       handleGetCurrentUser();
     } else {
       setLoading(false); // If no user in localStorage, just finish loading
     }
-  }, [user]); // Only run once on mount
+  }, []); // Only run once on mount
 
   const handleAuthChange = (userData, authState) => {
     setAuthState(authState);

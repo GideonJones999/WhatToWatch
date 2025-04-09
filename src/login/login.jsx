@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-// import { createUser, deleteUser } from "../../service/userAPI";
 import { getCurrentUser, loginUser, createUser, deleteUser } from "../util.js";
 import Profile from "../profile/profile";
 import "./login.css";
@@ -18,6 +17,7 @@ export default function Login({ onAuthChange, userPassed }) {
     userServices: ["Netflix"],
     userGenres: ["Action"],
     userNotInterested: [],
+    userRatings: [],
   });
 
   const [loginData, setLoginData] = useState({
@@ -27,6 +27,7 @@ export default function Login({ onAuthChange, userPassed }) {
 
   useEffect(() => {
     handleGetCurrentUser();
+    console.log("getting current user");
   }, []);
 
   // Handle Form Changes
@@ -65,6 +66,7 @@ export default function Login({ onAuthChange, userPassed }) {
   };
 
   const handleGetCurrentUser = async () => {
+    console.log("getting current user - login");
     try {
       const currentUser = await getCurrentUser();
       setUser(currentUser);

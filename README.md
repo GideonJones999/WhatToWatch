@@ -56,4 +56,4 @@ Added API Implimentation for both the movies and the user. User can create accou
 
 ## Database - 03/29/25
 
-Added mongoDB database implimentation
+Added mongoDB database implimentation. Users can now create an account, log in, log out, change settings, rate films, and get recommended popular films based on their certification preferences and streaming services. When this is done, the user can select whether or not they'd like to watch the film. This is now done through mongoDB.

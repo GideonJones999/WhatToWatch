@@ -17,6 +17,7 @@ export const getRandMovieAPI = async (page = 1) => {
 
     // Get user data
     const userData = await getCurrentUser();
+    console.log("User Data:", userData);
     let userRatingPreference = userData.userRating;
     let userServices = userData.userServices;
 
@@ -327,6 +328,7 @@ export const getFilmData = async (filmId) => {
 };
 
 export const getFilmId = async (filmName) => {
+  console.log("Fetching film ID for:", filmName);
   const url = `https://api.themoviedb.org/3/search/movie?query=${filmName}&include_adult=false&language=en-US&page=1`;
   const options = {
     method: "GET",
@@ -469,6 +471,7 @@ export const updateUser = async (userData) => {
 };
 
 export const createUser = async (userData) => {
+  console.log("Creating user data:", userData);
   try {
     const response = await fetch("/api/auth/create", {
       method: "POST",

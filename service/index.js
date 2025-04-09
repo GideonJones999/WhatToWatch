@@ -25,8 +25,17 @@ app.use("/api", apiRouter);
 
 /** Create User */
 apiRouter.post("/auth/create", async (req, res) => {
-  const { email, password, userName, userMaxRating, userServices, userGenres } =
-    req.body;
+  const {
+    email,
+    password,
+    userName,
+    userMaxRating,
+    userServices,
+    userGenres,
+    userRatings,
+    userNotInterested,
+    userRating,
+  } = req.body;
 
   if (await DB.getUser("email", email)) {
     return res.status(409).send({ msg: "Existing user" });
@@ -39,6 +48,9 @@ apiRouter.post("/auth/create", async (req, res) => {
       userMaxRating,
       userServices,
       userGenres,
+      userRatings,
+      userNotInterested,
+      userRating,
       token: uuid.v4(),
     };
     const createdUser = await DB.addUser(user); // Assuming you have a function to add the user to the database
@@ -55,13 +67,15 @@ apiRouter.post("/auth/login", async (req, res) => {
     const user = await DB.getUser(email);
     console.log("User found:", user);
     if (user && (await bcrypt.compare(password, user.passwordHash))) {
+      console.log("Password match, generating token");
       user.token = uuid.v4();
-      await DB.updateUser(user); // Assuming you have a function to update the user in the database
-      setAuthCookie(res, user.token);
+      const newUser = await DB.updateUser(user); // Assuming you have a function to update the user in the database
+      setAuthCookie(res, newUser.token);
       return res
         .status(200)
         .send({ email: user.email, userName: user.userName });
     } else {
+      console.log("Invalid credentials");
       res.status(401).send({ msg: "Unauthorized" });
     }
   } catch (error) {
@@ -75,6 +89,7 @@ apiRouter.post("/user/update", async (req, res) => {
 
   try {
     const updatedUser = await DB.updateUser(user);
+    console.log("User updated:", updatedUser);
     if (!updatedUser) {
       return res.status(404).send({ msg: "User not found" });
     }
@@ -98,7 +113,7 @@ apiRouter.delete("/auth/logout", async (req, res) => {
 
 const verifyAuth = async (req, res, next) => {
   console.log("Verifying auth token:", req.cookies);
-  const user = await DB.getUserByToken("token", req.cookies[authCookieName]);
+  const user = await DB.getUserByToken(req.cookies[authCookieName]);
   if (user) {
     req.user = user;
     next();
@@ -109,16 +124,17 @@ const verifyAuth = async (req, res, next) => {
 };
 
 /** Get Logged-in User Data */
-apiRouter.get("/user/me", verifyAuth, async (req, res) => {
-  const user = await DB.getUserByToken("token", req.cookies[authCookieName]);
+apiRouter.get("/user/me", async (req, res) => {
+  const user = await DB.getUserByToken(req.cookies[authCookieName]);
   if (!user) return res.status(401).send({ msg: "Unauthorized" });
+  console.log("User found:", user._id);
   res.send(user);
 });
 
 /** Set Authentication Cookie */
 function setAuthCookie(res, authToken) {
   res.cookie(authCookieName, authToken, {
-    secure: process.env.NODE_ENV === "production", // Only secure cookies in production
+    // secure: process.env.NODE_ENV === "production", // Only secure cookies in production
     httpOnly: true,
     sameSite: "strict",
   });

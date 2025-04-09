@@ -1,7 +1,4 @@
 import { tmdbAuth } from "../security";
-import { getCurrentUser } from "./userAPI";
-
-let serverAddress = "http://localhost:3000";
 
 export const getRandMovieAPI = async (page = 1) => {
   const url = `https://api.themoviedb.org/3/discover/movie?include_adult=false&include_video=false&language=en-US&page=${page}&sort_by=popularity.desc`;
@@ -433,5 +430,101 @@ export const getFilmName = async (filmId) => {
   } catch (error) {
     console.error("Error fetching movie title:", error);
     return null;
+  }
+};
+
+export const getCurrentUser = async () => {
+  try {
+    const response = await fetch(`/api/user/me`, {
+      method: "GET",
+      credentials: "include",
+    });
+    if (!response.ok) {
+      throw new Error("Failed to fetch current user");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+    return null;
+  }
+};
+
+export const updateUser = async (userData) => {
+  try {
+    console.log("Updating user data:", userData);
+    const response = await fetch("/api/user/update", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(userData),
+    });
+    if (!response.ok) throw new Error("Failed to update user data");
+    return await response.json();
+  } catch (error) {
+    console.error("Error updating user data:", error);
+    return null;
+  }
+};
+
+export const createUser = async (userData) => {
+  try {
+    const response = await fetch("/api/auth/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify(userData),
+    });
+    if (!response.ok) throw new Error("Failed to create user");
+    return await response.json();
+  } catch (error) {
+    console.error("Error creating user:", error);
+    return null;
+  }
+};
+
+export const deleteUser = async (email) => {
+  try {
+    const response = await fetch(`/api/user/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+      body: JSON.stringify({ email }),
+    });
+    if (!response.ok) throw new Error("Failed to delete user");
+    return await response.json();
+  } catch (error) {
+    console.error("Error deleting user:", error);
+    return null;
+  }
+};
+
+export const loginUser = async (email, password) => {
+  try {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include", // Include cookies in the request
+      body: JSON.stringify({ email, password }),
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error("Invalid email or password");
+      }
+      throw new Error("Failed to log in");
+    }
+
+    return await response.json(); // Return the user data
+  } catch (error) {
+    console.error("Error logging in:", error);
+    throw error; // Re-throw the error for the caller to handle
   }
 };

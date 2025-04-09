@@ -14,16 +14,14 @@ export function Unauthenticated(props) {
     }
   }, []);
 
-  let serverAddress = "http://localhost:3000";
-
   async function loginUser(e) {
     e.preventDefault(); // Prevent the form from refreshing the page
-    loginOrCreate(`${serverAddress}/api/auth/login`);
+    loginOrCreate(`/api/auth/login`);
   }
 
   async function createUser(e) {
     e.preventDefault(); // Prevent the form from refreshing the page
-    loginOrCreate(`${serverAddress}/api/auth/create`);
+    loginOrCreate(`/api/auth/create`);
   }
 
   async function loginOrCreate(endpoint) {

@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import LastWatchedMovie from "../components/last-watched-movie";
 import "./home.css";
-import { getFilmData } from "../util";
-import { getCurrentUser } from "../userAPI";
+import { getFilmData, getCurrentUser } from "../util";
 import Loading from "../components/loading/loading";
 
 export default function Home() {

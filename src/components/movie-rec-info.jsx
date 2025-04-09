@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import MovieInfo from "./movie-info";
-import { getRandMovieAPI } from "../util";
-import { updateUser, getCurrentUser } from "../userAPI";
+import { getRandMovieAPI, getCurrentUser, updateUser } from "../util";
+// import { updateUser } from "../../service/userAPI";
 import "../movie-rec/movie-rec.css";
 import Loading from "./loading/loading";
 

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { createUser, loginUser, getCurrentUser, logoutUser } from "../userAPI";
+// import { createUser, deleteUser } from "../../service/userAPI";
+import { getCurrentUser, loginUser, createUser, deleteUser } from "../util.js";
 import Profile from "../profile/profile";
 import "./login.css";
 
@@ -41,6 +42,7 @@ export default function Login({ onAuthChange, userPassed }) {
   const handleCreateUser = async (e) => {
     e.preventDefault();
     try {
+      console.log("Registering user:", registerData);
       const createdUser = await createUser(registerData);
       setUser(createdUser);
       setError(null);
@@ -53,13 +55,12 @@ export default function Login({ onAuthChange, userPassed }) {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const loggedInUser = await loginUser(loginData.email, loginData.password);
-      setUser(loggedInUser);
-      setError(null);
-      onAuthChange(loggedInUser, "Authenticated");
-      console.log("Logged in user:", loggedInUser);
+      const user = await loginUser(loginData.email, loginData.password); // Call the login function
+      setError(null); // Clear any previous errors
+      onAuthChange(user, "Authenticated"); // Update the app's auth state
+      console.log("Logged in user:", user);
     } catch (err) {
-      setError(err.message);
+      setError(err.message); // Display the error message
     }
   };
 
@@ -77,7 +78,7 @@ export default function Login({ onAuthChange, userPassed }) {
 
   const handleLogout = async () => {
     try {
-      await logoutUser();
+      await deleteUser(user.email);
       setUser(null);
       setError(null);
       onAuthChange(null, "Unauthenticated");

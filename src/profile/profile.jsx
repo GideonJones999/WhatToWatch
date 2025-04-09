@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./profile.css";
-import { updateUser, getCurrentUser } from "../userAPI";
+import { updateUser } from "../util.js";
 import Loading from "../components/loading/loading";
 
 export default function Profile({ user, refreshUser }) {
@@ -62,7 +62,7 @@ export default function Profile({ user, refreshUser }) {
     });
   };
 
-  if (!user) return <Loading />;
+  if (!user || !profile) return <Loading />;
 
   return (
     <>

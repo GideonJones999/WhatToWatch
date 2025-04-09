@@ -53,3 +53,7 @@ Converted to React, also added functional contact menu on About page, and login.
 ## Startup - 03/24/25
 
 Added API Implimentation for both the movies and the user. User can create account, log in, log out, change settings, rate films, and get recommended a popular film based on their certification preferences and streaming services. When this is done, the user can select whether or not they'd like to watch the film. Many Styling Changes.
+
+## Database - 03/29/25
+
+Added mongoDB database implimentation

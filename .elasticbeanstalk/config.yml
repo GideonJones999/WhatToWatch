@@ -1,0 +1,6 @@
+branch-defaults:
+  react-branch:
+    environment: null
+    group_suffix: null
+global:
+  profile: null

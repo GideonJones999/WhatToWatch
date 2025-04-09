@@ -10,7 +10,7 @@ import "./index.css";
 import MovieRecInfo from "./components/movie-rec-info";
 import MovieRateSearch from "./components/movie-rate-search";
 import Login from "./login/login.jsx";
-import { getCurrentUser } from "./userAPI";
+import { getCurrentUser } from "./util.js";
 import Loading from "./components/loading/loading";
 
 export default function App() {
